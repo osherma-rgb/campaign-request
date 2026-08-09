@@ -11,13 +11,20 @@
 
   Variant 4's text is wrapped in <span class="text"> — its #45454A color has no built-in
   contrast against the shell's dark-mode black background (email-shell.md) without that
-  class forcing it white. Variants 1–3 don't need it: their colors (white-on-black,
-  black-on-cream, brand purple-on-transparent) already work in both modes as authored.
+  class forcing it white. Variants 2–3 don't need any dark-mode escape: their colors
+  (black-on-cream, brand purple-on-transparent) already work against both a white and a
+  black page as authored.
+
+  Variant 1 (PRIMARY CTA) is a solid black pill — invisible against the shell's dark-mode
+  black page background even though its white text stays legible, since the button has no
+  border to show its shape. Its wrapping <td align="center" style="padding:24px 40px;">
+  carries class="mj-b" so the shell's dark-mode CSS flips it to a white pill with black
+  text instead of vanishing. Keep that class when you copy this snippet.
 -->
 
 <!-- 1. PRIMARY CTA — solid black pill. Use once per email/touchpoint, the one action that matters most. -->
 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-  <tbody><tr><td align="center" style="padding:24px 40px;">
+  <tbody><tr><td align="center" class="mj-b" style="padding:24px 40px;">
     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:180px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
       <span>Primary CTA text</span>
     </center></v:roundrect><![endif]-->

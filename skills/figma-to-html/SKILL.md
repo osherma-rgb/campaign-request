@@ -71,9 +71,13 @@ the user instead of looping forever.
   black background. Scan every text node in the assembled HTML (not just the ones you
   wrote by hand — copied component snippets can have the same gap) and confirm each one
   either carries `class="text"` or uses a color that's already legible on both a white and
-  a black background (e.g. an explicit white-on-black button). If a snippet in
-  `knowledge/components/` is missing this, fix the knowledge file itself, not just this
-  one output — otherwise the same email will break in dark mode again next time.
+  a black background. Separately, check every *solid-background* element (not just text) —
+  a solid black button (the primary CTA) has legible white text but no visible shape once
+  the page behind it also turns black; that button's wrapping `<td>` must carry
+  `class="mj-b"` (see `knowledge/email-shell.md` and `buttons.md`'s primary variant) so
+  dark mode flips it to a white pill instead of vanishing. If a snippet in
+  `knowledge/components/` is missing either escape, fix the knowledge file itself, not just
+  this one output — otherwise the same email breaks in dark mode again next time.
 - **First name**: apply the substitution in `knowledge/braze-liquid-tags.md` §1.
 - **`monday.com`**: apply the tracked-anchor substitution in
   `knowledge/braze-liquid-tags.md` §2, picking the color variant that matches the
