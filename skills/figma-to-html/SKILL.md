@@ -90,8 +90,13 @@ the user instead of looping forever.
   (including inside HTML comments, which never render) doesn't need this.
 - **First name**: apply the substitution in `knowledge/braze-liquid-tags.md` §1.
 - **`monday.com`**: apply the tracked-anchor substitution in
-  `knowledge/braze-liquid-tags.md` §2, picking the color variant that matches the
-  background noted in step 1.
+  `knowledge/braze-liquid-tags.md` §2 to **every** plain "monday.com" mention, picking the
+  color variant that matches the background noted in step 1. No exceptions for mentions
+  that read as plain prose (e.g. a venue name like "monday.com's NYC Office") — email
+  clients auto-linkify bare domain-looking text into an ugly default blue underlined link
+  regardless of whether Figma had it set up as a link, so leaving it bare is a rendering
+  bug, not a neutral choice. Scan every occurrence in the assembled HTML, not just ones
+  that look like CTAs.
 - **Magic link**: apply the content-block substitution in
   `knowledge/braze-liquid-tags.md` §3 for any sign-in/deep-link CTA.
 - **Footer**: apply the content-block substitution in `knowledge/braze-liquid-tags.md` §4

@@ -13,12 +13,14 @@
     "monday.com" brand mention, so no liquid-tag substitution applies to it.
   First-name substitution: this design has a literal "Hi [First Name]," greeting — replaced
   with the Braze personalization tag per knowledge/braze-liquid-tags.md §1.
-  monday.com mentions NOT linkified: "monday.com's NYC Office" / "monday.com NYC Office"
-  appear twice as plain descriptive text (a venue name inside a date/time line), not as a
-  link's anchor text or brand-signature mention — Figma has no href on that text. The
-  "replace monday.com" rule (braze-liquid-tags.md §2) is for monday.com used AS link/anchor
-  text, not every incidental prose mention of the company name; linkifying an address line
-  would be wrong here. Flagged rather than auto-applied.
+  monday.com mentions ARE wrapped per braze-liquid-tags.md §2, both occurrences
+  ("monday.com's NYC Office" / "monday.com NYC Office") — even though these read as plain
+  prose (a venue name), not a designed link. Left bare, email clients auto-linkify
+  domain-looking text into a default blue underlined link regardless of Figma's intent, so
+  wrapping it with controlled styling is required, not optional. (An earlier version of
+  this file skipped this on the theory that prose mentions don't need it — that was wrong,
+  caught via a real screenshot showing the unstyled auto-link; fixed here and in the skill's
+  own docs so it doesn't happen again.)
   Design-token deviations flagged: the 25px subhead used the closest documented token (H4,
   24px regular) since design-tokens.md has no 25px size; "Final seats available" used the
   closest structural token (H3, 32px semibold) but kept the design's real bordeaux accent
@@ -86,10 +88,10 @@
         </td></tr></tbody>
       </table>
 
-      <!-- Subhead — closest documented token to the design's 25px regular centered (H4, 24px regular). "monday.com's" here is descriptive venue text, not linkified. -->
+      <!-- Subhead — closest documented token to the design's 25px regular centered (H4, 24px regular). monday.com wrapped per braze-liquid-tags.md §2. -->
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
         <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 40px 0px;text-align:center;">
-          <div style="font-family: Poppins, Arial; font-size: 24px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 130%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th &middot; 9:00AM&ndash;1:00PM monday.com's NYC Office</span></div>
+          <div style="font-family: Poppins, Arial; font-size: 24px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 130%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th &middot; 9:00AM&ndash;1:00PM <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>'s NYC Office</span></div>
         </td></tr></tbody>
       </table>
 
@@ -159,10 +161,10 @@
         </td></tr></tbody>
       </table>
 
-      <!-- Closing details — small caption 14px centered, two lines (2nd line semibold). "monday.com NYC Office" is descriptive venue text again, not linkified. -->
+      <!-- Closing details — small caption 14px centered, two lines (2nd line semibold). monday.com wrapped per braze-liquid-tags.md §2. -->
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
         <tbody><tr><td style="direction:ltr;font-size:0px;padding:0px 40px 40px;text-align:center;">
-          <div style="font-family: Poppins, Arial; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th &middot; 9:00AM&ndash;1:00PM &middot; monday.com NYC Office<br><span style="font-weight: 600;">Coffee, snacks &amp; lunch included</span></span></div>
+          <div style="font-family: Poppins, Arial; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th &middot; 9:00AM&ndash;1:00PM &middot; <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a> NYC Office<br><span style="font-weight: 600;">Coffee, snacks &amp; lunch included</span></span></div>
         </td></tr></tbody>
       </table>
 

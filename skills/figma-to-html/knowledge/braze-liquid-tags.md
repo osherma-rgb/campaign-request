@@ -17,13 +17,25 @@ file:
 
 ## 2. `monday.com` mentions → tracked anchor
 
-Any plain "monday.com" text or link found in the Figma design must be replaced with the
-tracked anchor below. Pick the color variant that matches the surrounding text color in
-that section of the design — never leave `monday.com` as bare, un-tracked text.
+**Every** plain "monday.com" mention found in the Figma design must be wrapped in the
+tracked anchor below — no exceptions for mentions that read as plain prose (e.g. "...at
+monday.com's NYC Office"), and regardless of whether Figma itself had that text set up as
+a link. This is not just a tracking nicety: most email clients auto-linkify bare text that
+looks like a domain, and without explicit styling that renders as a default blue,
+underlined link — visually broken against the surrounding copy. Wrapping it yourself is
+the only way to control how it looks. Never leave `monday.com` as bare, untracked text.
+
+Pick the color variant that matches the surrounding text color in that section of the
+design. The light-background (black text) variant also carries `class="text"` — this
+mention sits inside body copy that's normally black, and needs to flip to white in dark
+mode exactly like the rest of that sentence (see `email-shell.md`'s dark-mode CSS); without
+that class it would stay black while the sentence around it turns white. The
+dark-background (white text) variant doesn't need it — it's already the color dark mode
+would flip it to.
 
 **On a light background (black text):**
 ```html
-<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
+<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
 ```
 
 **On a dark background (white text):**
