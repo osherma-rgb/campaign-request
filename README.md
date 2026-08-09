@@ -1,5 +1,7 @@
 # Campaign Request
 
+🔗 [Landing page](https://osherma-rgb.github.io/campaign-request/)
+
 An email-campaign agent for monday.com Lifecycle Marketing that automates:
 `monday item → Figma design → HTML → upload to Braze (later: HubSpot)`.
 
