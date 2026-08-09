@@ -78,6 +78,16 @@ the user instead of looping forever.
   dark mode flips it to a white pill instead of vanishing. If a snippet in
   `knowledge/components/` is missing either escape, fix the knowledge file itself, not just
   this one output — otherwise the same email breaks in dark mode again next time.
+- **Character encoding**: Figma text often contains raw Unicode punctuation — `·` (middle
+  dot separators), `–`/`—` (en/em dashes), `→` (arrows), curly quotes. Many ESPs/editors
+  don't reliably honor the `<meta charset="UTF-8">` tag once HTML is pasted or imported,
+  and raw Unicode punctuation can mojibake into garbage (e.g. `·` renders as `¬∑`). Replace
+  every non-ASCII punctuation character in rendered text — including `alt` attributes,
+  which still render if an image fails to load — with its HTML entity equivalent
+  (`&middot;`, `&ndash;`, `&mdash;`, `&rarr;`, `&rsquo;`/`&lsquo;`, `&rdquo;`/`&ldquo;`)
+  before handoff. Scan the *whole* assembled HTML for this, not just the text you typed by
+  hand — copied Figma text and image alt text need the same treatment. Plain ASCII text
+  (including inside HTML comments, which never render) doesn't need this.
 - **First name**: apply the substitution in `knowledge/braze-liquid-tags.md` §1.
 - **`monday.com`**: apply the tracked-anchor substitution in
   `knowledge/braze-liquid-tags.md` §2, picking the color variant that matches the
