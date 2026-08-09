@@ -14,16 +14,25 @@ owner: osherma@monday.com
 
 **Pipeline stage:** Figma design → HTML. This is one step in a larger email-campaign
 agent (monday item → Figma → HTML → Braze, later HubSpot). Phase 1 is manually
-triggered and Braze-only — it does not read the Figma URL out of a monday item, and it
-does not upload the result anywhere; it hands back finished HTML for the user to ship.
+triggered and Braze-only. It does not upload the result anywhere; it hands back finished
+HTML for the user to ship. When the input is a monday item rather than a bare Figma URL,
+it delegates to `monday-reader` (see step 0) rather than reading the item itself.
 
 ## When to Use
 
 - Given a Figma file/frame URL for a Lifecycle Marketing email, asked to turn it into HTML
+- Given a monday.com campaign item and asked to build/send its email
 - "Build/convert/code this Figma design into an email"
 - "Turn this Figma into something I can paste into Braze"
 
 ## Workflow
+
+### 0. Resolve the Figma URL (if starting from a monday item)
+
+If given a monday.com item instead of a Figma URL directly, run the `monday-reader` skill
+first to resolve `{figma_url, cta_link}` from that item. Carry the `cta_link` through to
+step 3's CTA cross-check below. If given a Figma URL directly (no monday item), skip this
+step — there's no CTA link to cross-check against, so step 3's CTA check is skipped too.
 
 ### 1. Read the Figma design (mcp to Figma)
 
@@ -66,6 +75,10 @@ the user instead of looping forever.
   — inserted right before `</body>`, no inlined footer markup.
 - **Visual sanity check**: compare the assembled HTML against the Figma screenshot from
   step 1 — same content, same order, same approximate layout.
+- **CTA link cross-check** (only when step 0 supplied a `cta_link` from `monday-reader`):
+  the primary CTA button's `href` in the assembled HTML must equal that `cta_link`
+  exactly. If it doesn't, fix the HTML's href (never the monday item's value) and recheck.
+  State the match explicitly in the handoff — don't just assume it.
 
 Present the final HTML to the user before calling it done (Phase 1 is manual — always
 show the result, don't ship it silently).
@@ -88,11 +101,14 @@ show the result, don't ship it silently).
   reference instead.
 - ❌ Don't hand-write a URL for a magic-link CTA — always use the content-block reference.
 - ❌ Don't leave a bare `monday.com` mention un-tracked.
-- ❌ Don't read the Figma URL from a monday.com item, and don't upload the result to
-  Braze — both are separate, later steps in this agent, out of scope here.
+- ❌ Don't upload the result to Braze — that's a separate, later step in this agent, out
+  of scope here.
+- ❌ Don't silently skip the CTA cross-check when a `cta_link` was supplied — a mismatch
+  means the HTML is wrong, not the monday item.
 
 ## Related
 
+- [monday-reader](../monday-reader/SKILL.md) — resolves the Figma URL + CTA link from a monday item, feeds this skill
 - [Design tokens](knowledge/design-tokens.md) — typography, colors, spacing, button variants
 - [Email shell](knowledge/email-shell.md) · [Component snippets](knowledge/components/)
 - [Braze liquid tags](knowledge/braze-liquid-tags.md) — the four required substitutions

@@ -145,14 +145,14 @@
     <h2>The pipeline</h2>
     <p class="lede">Four steps, built one at a time. Only the middle step is wired up so far.</p>
     <div class="flow">
-      <div class="flow-step">
-        <h3>monday item</h3>
-        <p>Campaign item holds the Figma link and the source-of-truth CTA link.</p>
+      <div class="flow-step" style="border-color:var(--done);">
+        <h3>Monday reader</h3>
+        <p>Resolves the Figma link and the source-of-truth CTA link from the campaign item.</p>
       </div>
       <div class="flow-arrow">→</div>
-      <div class="flow-step" style="border-color:var(--accent);">
+      <div class="flow-step" style="border-color:var(--done);">
         <h3>Figma → HTML</h3>
-        <p>Maps the design to monday's approved components, applies Braze liquid tags, validates the markup.</p>
+        <p>Maps the design to monday's approved components, applies Braze liquid tags, cross-checks the CTA link, validates the markup.</p>
       </div>
       <div class="flow-arrow">→</div>
       <div class="flow-step">
@@ -165,6 +165,10 @@
         <p>Same output, second destination — phase 4.</p>
       </div>
     </div>
+    <p style="font-size:13px;color:var(--text-soft);margin-top:16px;">
+      <span style="color:var(--done);font-weight:700;">●</span> built &amp; end-to-end tested
+      &nbsp;·&nbsp; <span style="color:var(--future);font-weight:700;">●</span> not yet built
+    </p>
   </div>
 </section>
 
@@ -176,7 +180,8 @@
       <div class="phase-card">
         <div class="num">PHASE 1</div>
         <h3>Manual trigger, Braze-only</h3>
-        <p>Figma → HTML conversion, run by hand, targeting Braze's liquid-tag conventions.</p>
+        <p>Monday reader + Figma → HTML are built and verified end-to-end against a real
+        campaign item. Braze upload is next.</p>
         <span class="status-pill done"><span class="dot"></span>In progress</span>
       </div>
       <div class="phase-card">
@@ -204,17 +209,35 @@
 <section>
   <div class="wrap">
     <h2>What's built today</h2>
-    <p class="lede">The <code>figma-to-html</code> skill — the core of Phase 1.</p>
-    <div class="skill-card">
-      <h3>figma-to-html</h3>
-      <span class="path">skills/figma-to-html/SKILL.md</span>
-      <ul class="checklist">
-        <li>Reads a Figma email design via the Figma MCP and walks it section by section</li>
-        <li>Maps each section onto monday.com's approved email component library — headings, body text, buttons, images, columns, lists, footer</li>
-        <li>Applies the required Braze substitutions: first-name personalization, tracked monday.com links, magic-link content blocks, footer content block</li>
-        <li>Validates the resulting HTML and loops to fix issues before handoff</li>
-      </ul>
+    <p class="lede">Two skills, chained together — the core of Phase 1.</p>
+    <div style="display:grid;gap:20px;">
+      <div class="skill-card">
+        <h3>monday-reader</h3>
+        <span class="path">skills/monday-reader/SKILL.md</span>
+        <ul class="checklist">
+          <li>Reads a monday.com campaign item via the monday MCP (columns + updates)</li>
+          <li>Resolves the item's Figma design link, preferring structured columns over freeform update text</li>
+          <li>Resolves the item's source-of-truth CTA link the same way</li>
+          <li>Hands both off to figma-to-html instead of guessing when either is missing</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>figma-to-html</h3>
+        <span class="path">skills/figma-to-html/SKILL.md</span>
+        <ul class="checklist">
+          <li>Reads a Figma email design via the Figma MCP and walks it section by section</li>
+          <li>Maps each section onto monday.com's approved email component library — headings, body text, buttons, images, columns, lists, footer</li>
+          <li>Applies the required Braze substitutions: first-name personalization, tracked monday.com links, magic-link content blocks, footer content block</li>
+          <li>Cross-checks the assembled CTA link against monday-reader's source-of-truth link</li>
+          <li>Validates the resulting HTML and loops to fix issues before handoff</li>
+        </ul>
+      </div>
     </div>
+    <p style="font-size:13.5px;color:var(--text-soft);margin-top:20px;">
+      Verified end-to-end against a real campaign item — the
+      <a href="https://github.com/osherma-rgb/campaign-request/blob/main/skills/figma-to-html/examples/monday-for-marketers-webinar-invite-2.html">test output</a>
+      confirms the HTML's CTA link matches the monday item's stored CTA link exactly.
+    </p>
   </div>
 </section>
 
