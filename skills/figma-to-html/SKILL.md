@@ -65,6 +65,15 @@ the user instead of looping forever.
 
 - **HTML well-formedness**: every tag closed, valid nested `<table>` structure (this is
   email HTML — tables and inline styles, not divs/flexbox/grid).
+- **Dark-mode contrast**: `knowledge/email-shell.md`'s CSS forces the email background to
+  black in dark mode but only flips elements carrying `class="text"` to white — anything
+  else with a hardcoded dark color (e.g. `color: #000000`) goes invisible against that
+  black background. Scan every text node in the assembled HTML (not just the ones you
+  wrote by hand — copied component snippets can have the same gap) and confirm each one
+  either carries `class="text"` or uses a color that's already legible on both a white and
+  a black background (e.g. an explicit white-on-black button). If a snippet in
+  `knowledge/components/` is missing this, fix the knowledge file itself, not just this
+  one output — otherwise the same email will break in dark mode again next time.
 - **First name**: apply the substitution in `knowledge/braze-liquid-tags.md` §1.
 - **`monday.com`**: apply the tracked-anchor substitution in
   `knowledge/braze-liquid-tags.md` §2, picking the color variant that matches the

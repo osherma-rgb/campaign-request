@@ -8,6 +8,11 @@
   each). Swap the href and the link text only. Keep the Outlook VML fallback for the
   pill-shaped buttons — Outlook desktop doesn't support CSS border-radius, so without it
   the button renders as a square in Outlook.
+
+  Variant 4's text is wrapped in <span class="text"> — its #45454A color has no built-in
+  contrast against the shell's dark-mode black background (email-shell.md) without that
+  class forcing it white. Variants 1–3 don't need it: their colors (white-on-black,
+  black-on-cream, brand purple-on-transparent) already work in both modes as authored.
 -->
 
 <!-- 1. PRIMARY CTA — solid black pill. Use once per email/touchpoint, the one action that matters most. -->
@@ -66,7 +71,7 @@
       <tbody><tr>
         <td align="center" bgcolor="transparent" role="presentation" style="border:0px;border-radius:100px;cursor:auto;font-style:normal;text-align:left;background:transparent;" valign="middle">
           <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#45454A;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:1px 0px;border-radius:100px;">
-            <img src="REPLACE_ICON.png" alt="" style="vertical-align: middle; margin-top: -3px; margin-right:4px;">Icon link text ></a>
+            <img src="REPLACE_ICON.png" alt="" style="vertical-align: middle; margin-top: -3px; margin-right:4px;"><span class="text">Icon link text ></span></a>
         </td>
       </tr></tbody>
     </table>

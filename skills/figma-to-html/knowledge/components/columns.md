@@ -7,6 +7,11 @@
   Column layouts. All within the 640px total / 560px content width system.
   Pick the ratio based on content, not by default — an icon+label pairing wants an
   asymmetric split (~32/68), not an even 50/50.
+
+  Every text node below is wrapped in <span class="text"> — required so the shell's
+  dark-mode override (email-shell.md) flips it to white; without that class it stays
+  #000000 and goes invisible once the shell forces the background black in dark mode.
+  Keep this wrapper when you edit these snippets.
 -->
 
 <!-- SINGLE COLUMN — 100% width, the default wrapper for any standalone content block -->
@@ -35,7 +40,7 @@
       <img src="REPLACE_ICON.png" alt="" width="60" style="border:0;display:block;margin:0 auto;">
     </td>
     <td valign="middle" style="width:68%;padding:24px 40px 24px 12px;font-family: Poppins, Arial; font-size: 15px; font-weight: 400; color: #000000;">
-      Label or link text goes here
+      <span class="text">Label or link text goes here</span>
     </td>
   </tr></tbody>
 </table>
@@ -44,16 +49,16 @@
 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
   <tbody><tr>
     <td valign="top" style="width:33.33%;padding:24px 8px 24px 40px;">
-      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;">Feature one headline</div>
-      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;">One sentence describing it.</div>
+      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;"><span class="text">Feature one headline</span></div>
+      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;"><span class="text">One sentence describing it.</span></div>
     </td>
     <td valign="top" style="width:33.33%;padding:24px 8px;">
-      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;">Feature two headline</div>
-      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;">One sentence describing it.</div>
+      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;"><span class="text">Feature two headline</span></div>
+      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;"><span class="text">One sentence describing it.</span></div>
     </td>
     <td valign="top" style="width:33.33%;padding:24px 40px 24px 8px;">
-      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;">Feature three headline</div>
-      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;">One sentence describing it.</div>
+      <div style="font-family: Poppins, Arial; font-size: 16px; font-weight: 600; letter-spacing: 0px; line-height: 140%; color: #000000; text-align:left;"><span class="text">Feature three headline</span></div>
+      <div style="font-family: Poppins, Arial; font-size: 14px; font-weight: 400; letter-spacing: 0px; line-height: 150%; color: #000000; text-align:left; padding-top:8px;"><span class="text">One sentence describing it.</span></div>
     </td>
   </tr></tbody>
 </table>
