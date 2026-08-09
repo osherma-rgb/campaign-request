@@ -1,0 +1,174 @@
+<!--
+  Phase 1 test output of the figma-to-html skill (2nd manual test, run purely by chaining
+  monday-reader then figma-to-html — no ad hoc steps).
+  Source monday item: https://monday.monday.com/boards/112753365/pulses/12349758618
+    ("Service AI Launch Event - July 29 Email Invitation #4")
+  Source Figma: https://www.figma.com/design/Gg0PCXH22QA6JDDhvW5WL0/SITS-service-summit?node-id=451-1905
+    (resolved by monday-reader from this item's own link column + matching update text;
+    a different, unrelated linked item references a different Figma node — not used here
+    since this item's own value was already internally consistent)
+  CTA link cross-check: monday-reader resolved cta_link = https://monday.com/lp/service-agent-launch-2026
+    (link column + update text agree). Used verbatim as the primary button's href below —
+    matches exactly. This is a real landing-page URL, not a magic link and not a bare
+    "monday.com" brand mention, so no liquid-tag substitution applies to it.
+  First-name substitution: this design has a literal "Hi [First Name]," greeting — replaced
+  with the Braze personalization tag per knowledge/braze-liquid-tags.md §1.
+  monday.com mentions NOT linkified: "monday.com's NYC Office" / "monday.com NYC Office"
+  appear twice as plain descriptive text (a venue name inside a date/time line), not as a
+  link's anchor text or brand-signature mention — Figma has no href on that text. The
+  "replace monday.com" rule (braze-liquid-tags.md §2) is for monday.com used AS link/anchor
+  text, not every incidental prose mention of the company name; linkifying an address line
+  would be wrong here. Flagged rather than auto-applied.
+  Design-token deviations flagged: the 25px subhead used the closest documented token (H4,
+  24px regular) since design-tokens.md has no 25px size; "Final seats available" used the
+  closest structural token (H3, 32px semibold) but kept the design's real bordeaux accent
+  color (#fb275d, Figma variable brand-colors/bordeaux/500) rather than substituting the
+  documented #6161FF brand-accent, since this is a real named token from the signed-off
+  design, not an invented color — worth adding to design-tokens.md's palette table.
+  Known limitation: all 4 image srcs below are Figma's temporary asset URLs (expire ~7 days
+  from 2026-08-09) — download and re-host before any real send.
+-->
+<!doctype html>
+<html lang="en" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <title></title>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      #outlook a { padding:0; }
+      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }
+      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }
+      p { display:block;margin:13px 0; }
+    </style>
+    <!--[if mso]>
+    <noscript>
+    <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+    </xml>
+    </noscript>
+    <![endif]-->
+    <!--[if lte mso 11]>
+    <style type="text/css">
+      .mj-outlook-group-fix { width:100% !important; }
+    </style>
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+      @media only screen and (min-width:480px) {
+        .mj-column-per-100 { width:100% !important; max-width: 100%; }
+      }
+    </style>
+    <style media="screen and (min-width:480px)">
+      .moz-text-html .mj-column-per-100 { width:100% !important; max-width: 100%; }
+    </style>
+    <style type="text/css">@media only screen and (min-width: 320px){body::-webkit-scrollbar{display:none !important;}p, a{margin:0 !important;}} </style>
+    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}@media (prefers-color-scheme: dark){:root{color-scheme:dark;supported-color-schemes:dark light;}.b{background-color:#000000 !important;}.text,.text>div{color:#ffffff !important;}.link,.link>div{color:#ffffff !important;}.mj-b td{background:#ffffff !important;background-color:#ffffff !important;}.mj-b a{background:#ffffff !important;color:#000000 !important;}} </style>
+  </head>
+  <body style="word-spacing:normal;background-color:#ffffff;">
+    <div aria-roledescription="email" class="b bBg" style="margin: auto; background-color: #ffffff;" role="article" lang="und" dir="auto">
+
+      <!-- Hero image — full-bleed, 640x526 (pink bg, "Lead the Next Era of Agentic Service" headline, crowd photo, July 29 date badge — all baked into the asset) -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:0px;text-align:center;">
+          <img src="https://www.figma.com/api/mcp/asset/16307e9e-3073-4d03-b4fc-b77f5df55679.png" alt="Lead the Next Era of Agentic Service — July 29" width="640" style="border:0;display:block;outline:none;text-decoration:none;width:100%;max-width:100%;height:auto;">
+        </td></tr></tbody>
+      </table>
+
+      <!-- Subhead — closest documented token to the design's 25px regular centered (H4, 24px regular). "monday.com's" here is descriptive venue text, not linkified. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 40px 0px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 24px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 130%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th · 9:00AM–1:00PM monday.com's NYC Office</span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Headline — closest structural token to the design's 30px semibold centered (H3, 32px semibold), kept the design's real bordeaux accent color (#fb275d) rather than the documented #6161FF brand-accent — see top-of-file note. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:8px 40px 16px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 32px; font-style: normal; font-weight: 600; letter-spacing: 0px; line-height: 130%; text-align: center; text-decoration: none; text-transform: none; color: #fb275d;"><span class="text">Final seats available</span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Body paragraph — closest documented token (15px regular left-aligned); "[First Name]" replaced with the Braze personalization tag. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:8px 40px 20px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 160%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Hi {{${first_name} | default: 'there'}},<br><br>Seats are filling up fast - and we only have a few left. If July 29th is on your radar, now's the time to secure your spot.</span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Icon list — 3 items -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:8px 40px 16px;">
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+            <tbody>
+              <tr>
+                <td width="21" valign="top" style="padding:8px 12px 8px 0px;">
+                  <img src="https://www.figma.com/api/mcp/asset/f7250b34-fe2c-4374-ba31-1cbe9dc462fc.png" alt="" width="21" height="20" style="border:0;display:block;">
+                </td>
+                <td style="font-family: Poppins, Arial; font-size: 15px; font-weight: 400; letter-spacing: 0px; line-height: 140%; color: #000000; padding:8px 0px;">
+                  <span class="text"><span style="font-weight: 600;">Early access to AI service agents</span><br>See monday service's new agents live before general release.</span>
+                </td>
+              </tr>
+              <tr>
+                <td width="21" valign="top" style="padding:8px 12px 8px 0px;">
+                  <img src="https://www.figma.com/api/mcp/asset/7463db2b-548e-4e98-b481-67eb175409eb.png" alt="" width="21" height="20" style="border:0;display:block;">
+                </td>
+                <td style="font-family: Poppins, Arial; font-size: 15px; font-weight: 400; letter-spacing: 0px; line-height: 140%; color: #000000; padding:8px 0px;">
+                  <span class="text"><span style="font-weight: 600;">Build your first agent. In the room.</span><br>A hands-on workshop with guidance from our team.</span>
+                </td>
+              </tr>
+              <tr>
+                <td width="21" valign="top" style="padding:8px 12px 8px 0px;">
+                  <img src="https://www.figma.com/api/mcp/asset/6f26d080-b943-43f5-a5a8-b5772905db50.png" alt="" width="21" height="20" style="border:0;display:block;">
+                </td>
+                <td style="font-family: Poppins, Arial; font-size: 15px; font-weight: 400; letter-spacing: 0px; line-height: 140%; color: #000000; padding:8px 0px;">
+                  <span class="text"><span style="font-weight: 600;">A room full of peers</span><br>Exchange ideas with a curated group of IT &amp; Ops leaders.</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Primary CTA — solid black pill (class="mj-b" for dark-mode visibility). href = monday-reader's resolved cta_link, verified equal. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td align="center" class="mj-b" style="padding:24px 40px;">
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:200px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
+            <span>Secure your spot →</span>
+          </center></v:roundrect><![endif]-->
+          <!--[if !mso]><!-->
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+            <tbody><tr>
+              <td align="center" bgcolor="#000000" role="presentation" style="border:0px;border-radius:9999px;cursor:auto;font-style:normal;text-align:center;background:#000000;" valign="middle">
+                <a href="https://monday.com/lp/service-agent-launch-2026" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:18px;font-style:normal;font-weight:600;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:15px 40px;border-radius:9999px;">Secure your spot →</a>
+              </td>
+            </tr></tbody>
+          </table>
+          <!--<![endif]-->
+        </td></tr></tbody>
+      </table>
+
+      <!-- Closing details — small caption 14px centered, two lines (2nd line semibold). "monday.com NYC Office" is descriptive venue text again, not linkified. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:0px 40px 40px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: center; text-decoration: none; text-transform: none; color: #000000;"><span class="text">Wednesday, July 29th · 9:00AM–1:00PM · monday.com NYC Office<br><span style="font-weight: 600;">Coffee, snacks &amp; lunch included</span></span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Mandatory footer content block -->
+      {{content_blocks.${fotter_with_monday_logo}}}
+
+    </div>
+  </body>
+</html>
