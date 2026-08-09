@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign Request — Lifecycle Email Campaign Agent</title>
+<meta name="description" content="An agent that automates the Lifecycle Marketing email pipeline: monday item → Figma design → HTML → Braze/HubSpot.">
+<style>
+  :root{
+    --bg:#ffffff; --bg-soft:#f6f7f8; --text:#111318; --text-soft:#5c6270;
+    --border:#e3e5e9; --accent:#0073ea; --accent-soft:#eaf2ff;
+    --card:#ffffff; --shadow: 0 1px 2px rgba(17,19,24,0.06), 0 8px 24px rgba(17,19,24,0.04);
+    --done:#00854d; --done-bg:#e6f4ec; --next:#9d5cff; --next-bg:#f2ebff; --future:#9299a6; --future-bg:#f1f2f4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1116; --bg-soft:#161923; --text:#eef0f4; --text-soft:#9aa1b1;
+      --border:#262b38; --accent:#5ca8ff; --accent-soft:#16233a;
+      --card:#161923; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+      --done:#3ecf8e; --done-bg:#0f2a20; --next:#c19bff; --next-bg:#241a3a; --future:#6b7280; --future-bg:#1b1e27;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1116; --bg-soft:#161923; --text:#eef0f4; --text-soft:#9aa1b1;
+    --border:#262b38; --accent:#5ca8ff; --accent-soft:#16233a;
+    --card:#161923; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    --done:#3ecf8e; --done-bg:#0f2a20; --next:#c19bff; --next-bg:#241a3a; --future:#6b7280; --future-bg:#1b1e27;
+  }
+  :root[data-theme="light"]{
+    --bg:#ffffff; --bg-soft:#f6f7f8; --text:#111318; --text-soft:#5c6270;
+    --border:#e3e5e9; --accent:#0073ea; --accent-soft:#eaf2ff;
+    --card:#ffffff; --shadow: 0 1px 2px rgba(17,19,24,0.06), 0 8px 24px rgba(17,19,24,0.04);
+    --done:#00854d; --done-bg:#e6f4ec; --next:#9d5cff; --next-bg:#f2ebff; --future:#9299a6; --future-bg:#f1f2f4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--text);}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+  header.hero{padding:96px 0 64px;text-align:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:600;letter-spacing:.02em;
+    color:var(--accent);background:var(--accent-soft);
+    padding:6px 14px;border-radius:999px;margin-bottom:24px;
+  }
+  h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:0 0 16px;letter-spacing:-0.01em;}
+  .sub{font-size:19px;color:var(--text-soft);max-width:640px;margin:0 auto 32px;}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;
+    text-decoration:none;transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow);}
+  .btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border);}
+
+  section{padding:56px 0;border-top:1px solid var(--border);}
+  h2{font-size:26px;margin:0 0 8px;}
+  .lede{color:var(--text-soft);margin:0 0 40px;max-width:620px;}
+
+  .flow{
+    display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:8px 0 16px;
+    scrollbar-width:thin;
+  }
+  .flow-step{
+    flex:1 0 200px;background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:20px;box-shadow:var(--shadow);
+  }
+  .flow-step h3{margin:0 0 6px;font-size:15px;}
+  .flow-step p{margin:0;font-size:13px;color:var(--text-soft);}
+  .flow-arrow{
+    display:flex;align-items:center;justify-content:center;flex:0 0 40px;
+    color:var(--text-soft);font-size:20px;
+  }
+  .badge{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:3px 9px;border-radius:6px;margin-bottom:10px;
+  }
+  .badge-active{background:var(--done-bg);color:var(--done);}
+  .badge-planned{background:var(--future-bg);color:var(--future);}
+
+  .phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media (max-width:860px){.phase-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.phase-grid{grid-template-columns:1fr;}}
+  .phase-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .phase-card .num{
+    font-size:12px;font-weight:700;color:var(--text-soft);letter-spacing:.06em;margin-bottom:10px;
+  }
+  .phase-card h3{margin:0 0 8px;font-size:16px;}
+  .phase-card p{margin:0;font-size:13.5px;color:var(--text-soft);}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+    padding:3px 10px;border-radius:999px;margin-top:12px;
+  }
+  .status-pill.done{background:var(--done-bg);color:var(--done);}
+  .status-pill.next{background:var(--next-bg);color:var(--next);}
+  .status-pill.future{background:var(--future-bg);color:var(--future);}
+  .status-pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+
+  .skill-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:28px;box-shadow:var(--shadow);
+  }
+  .skill-card h3{margin:0 0 6px;font-size:18px;}
+  .skill-card .path{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+    color:var(--text-soft);margin-bottom:16px;display:block;
+  }
+  .checklist{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+  .checklist li{display:flex;gap:10px;font-size:14.5px;}
+  .checklist li::before{content:"✓";color:var(--done);font-weight:700;flex-shrink:0;}
+
+  footer{padding:40px 0 64px;text-align:center;color:var(--text-soft);font-size:13px;}
+  footer a{color:var(--text-soft);text-decoration:underline;}
+  a{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">● Phase 1 — live</span>
+    <h1>Turn a Figma email design<br>into send-ready Braze HTML.</h1>
+    <p class="sub">
+      Campaign Request automates monday.com Lifecycle Marketing's email pipeline —
+      one phase at a time. Today: a Figma design goes in, on-brand, Braze-ready HTML
+      comes out.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/osherma-rgb/campaign-request">View on GitHub →</a>
+      <a class="btn btn-secondary" href="#pipeline">See the pipeline</a>
+    </div>
+  </div>
+</header>
+
+<section id="pipeline">
+  <div class="wrap">
+    <h2>The pipeline</h2>
+    <p class="lede">Four steps, built one at a time. Only the middle step is wired up so far.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <h3>monday item</h3>
+        <p>Campaign item holds the Figma link and the source-of-truth CTA link.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step" style="border-color:var(--accent);">
+        <h3>Figma → HTML</h3>
+        <p>Maps the design to monday's approved components, applies Braze liquid tags, validates the markup.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <h3>Upload to Braze</h3>
+        <p>Send-ready HTML lands in the Braze campaign, ready to schedule.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <h3>HubSpot</h3>
+        <p>Same output, second destination — phase 4.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Roadmap</h2>
+    <p class="lede">Built step by step toward a fully autonomous pipeline.</p>
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="num">PHASE 1</div>
+        <h3>Manual trigger, Braze-only</h3>
+        <p>Figma → HTML conversion, run by hand, targeting Braze's liquid-tag conventions.</p>
+        <span class="status-pill done"><span class="dot"></span>In progress</span>
+      </div>
+      <div class="phase-card">
+        <div class="num">PHASE 2</div>
+        <h3>Auto-trigger</h3>
+        <p>Fires automatically when the monday item is opened — no manual kickoff.</p>
+        <span class="status-pill future"><span class="dot"></span>Planned</span>
+      </div>
+      <div class="phase-card">
+        <div class="num">PHASE 3</div>
+        <h3>Agent-authored content</h3>
+        <p>Connects new AI-generated content straight into the Figma design.</p>
+        <span class="status-pill future"><span class="dot"></span>Planned</span>
+      </div>
+      <div class="phase-card">
+        <div class="num">PHASE 4</div>
+        <h3>HubSpot support</h3>
+        <p>Same pipeline, second ESP destination alongside Braze.</p>
+        <span class="status-pill future"><span class="dot"></span>Planned</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What's built today</h2>
+    <p class="lede">The <code>figma-to-html</code> skill — the core of Phase 1.</p>
+    <div class="skill-card">
+      <h3>figma-to-html</h3>
+      <span class="path">skills/figma-to-html/SKILL.md</span>
+      <ul class="checklist">
+        <li>Reads a Figma email design via the Figma MCP and walks it section by section</li>
+        <li>Maps each section onto monday.com's approved email component library — headings, body text, buttons, images, columns, lists, footer</li>
+        <li>Applies the required Braze substitutions: first-name personalization, tracked monday.com links, magic-link content blocks, footer content block</li>
+        <li>Validates the resulting HTML and loops to fix issues before handoff</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Campaign Request · <a href="https://github.com/osherma-rgb/campaign-request">github.com/osherma-rgb/campaign-request</a>
+  </div>
+</footer>
+
+</body>
+</html>
