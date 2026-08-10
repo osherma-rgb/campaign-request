@@ -7,10 +7,8 @@
   List item snippet — bold lead-in + regular continuation, both 15px, with a small
   marker icon (21x20px, typically a checkmark). Repeat the <tr> block once per item.
   Use the inline brand-accent span for at most one key phrase per item, not every item.
-  The whole text run is wrapped in <span class="text"> — required so the shell's dark-mode
-  override (email-shell.md) flips it to white; without that class it stays #000000 and goes
-  invisible once the shell forces the background black in dark mode. Keep this wrapper
-  when you edit this snippet.
+  "Bold lead-in phrase" means font-weight:600 (semibold) as written below — never
+  font-weight:700; this library doesn't use true bold anywhere.
 -->
 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
   <tbody><tr><td style="padding:0px 40px;">
@@ -23,7 +21,7 @@
             <img src="REPLACE_CHECK_ICON.png" alt="" width="21" height="20" style="border:0;display:block;">
           </td>
           <td style="font-family: Poppins, Arial; font-size: 15px; font-weight: 400; letter-spacing: 0px; line-height: 140%; color: #000000; padding:4px 0px;">
-            <span class="text"><span style="font-weight: 600;">Bold lead-in phrase</span> — regular continuation text describing it, or <span style="color: #6161FF;">an emphasized link</span> if this item points somewhere.</span>
+            <span><span style="font-weight: 600;">Bold lead-in phrase</span> — regular continuation text describing it, or <span style="color: #6161FF;">an emphasized link</span> if this item points somewhere.</span>
           </td>
         </tr>
         <!-- /repeat -->

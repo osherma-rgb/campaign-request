@@ -5,9 +5,10 @@ description: >
   Marketing email and asked to turn it into HTML for Braze, build/convert/code a Figma
   design into an email, or paste something into Braze — including a monday item that has
   no Figma link but its Design column says "Generic email template." Also use when an
-  already-assembled Braze email looks broken — invisible text or buttons in dark mode,
-  garbled punctuation (mojibake) after pasting, or "monday.com" showing up as a stray blue
-  underlined link.
+  already-assembled Braze email looks broken — invisible/white-on-white text or a
+  shapeless button after a real Braze send (not just a dark-mode preview), garbled
+  punctuation (mojibake) after pasting, "monday.com" showing up as a stray blue underlined
+  link, or a button that looks bigger/bolder than it should.
 status: draft
 owner: osherma@monday.com
 ---
@@ -72,19 +73,20 @@ the user instead of looping forever.
 
 - **HTML well-formedness**: every tag closed, valid nested `<table>` structure (this is
   email HTML — tables and inline styles, not divs/flexbox/grid).
-- **Dark-mode contrast**: `knowledge/email-shell.md`'s CSS forces the email background to
-  black in dark mode but only flips elements carrying `class="text"` to white — anything
-  else with a hardcoded dark color (e.g. `color: #000000`) goes invisible against that
-  black background. Scan every text node in the assembled HTML (not just the ones you
-  wrote by hand — copied component snippets can have the same gap) and confirm each one
-  either carries `class="text"` or uses a color that's already legible on both a white and
-  a black background. Separately, check every *solid-background* element (not just text) —
-  a solid black button (the primary CTA) has legible white text but no visible shape once
-  the page behind it also turns black; that button's wrapping `<td>` must carry
-  `class="mj-b"` (see `knowledge/email-shell.md` and `buttons.md`'s primary variant) so
-  dark mode flips it to a white pill instead of vanishing. If a snippet in
-  `knowledge/components/` is missing either escape, fix the knowledge file itself, not just
-  this one output — otherwise the same email breaks in dark mode again next time.
+- **No custom dark-mode CSS class**: never add a `@media (prefers-color-scheme: dark)`
+  override, or any `class="text"`/`class="mj-b"`-style hook meant to be conditionally
+  styled by one — see `knowledge/email-shell.md` for why. Confirmed via a real Braze test
+  send: Braze's CSS inliner applies `@media`-scoped rules unconditionally, so a
+  dark-mode-only rule renders on every send, not just in dark mode — white-on-white text
+  and a shapeless button, every time, in normal light-mode viewing. The
+  `color-scheme:light;supported-color-schemes:light` declaration already in
+  `email-shell.md` is the correct, safe way to opt out of client auto-inversion; nothing
+  else is needed or safe to add.
+- **Button spec fidelity**: the primary CTA must match `buttons.md`'s documented values
+  EXACTLY — `font-size:16px`, `font-weight:400`, `padding:12px 24px`. A real test caught an
+  unflagged drift to 18px/weight 600/padding 15px 40px ("make it stand out more" is not a
+  reason to deviate). More generally: this library never uses `font-weight:700` (true
+  bold) anywhere — only 400 (regular) or 600 (semibold), per `design-tokens.md`.
 - **Character encoding**: Figma text often contains raw Unicode punctuation — `·` (middle
   dot separators), `–`/`—` (en/em dashes), `→` (arrows), curly quotes. Many ESPs/editors
   don't reliably honor the `<meta charset="UTF-8">` tag once HTML is pasted or imported,
@@ -140,6 +142,10 @@ show the result, don't ship it silently).
   of scope here.
 - ❌ Don't silently skip the CTA cross-check when a `cta_link` was supplied — a mismatch
   means the HTML is wrong, not the monday item.
+- ❌ Don't add a `@media (prefers-color-scheme: dark)` override or any class hook meant for
+  one — proven to break every Braze send, not just dark mode (see step 3).
+- ❌ Don't resize, rebold, or repad the primary button "to make it pop" — match
+  `buttons.md`'s documented values exactly. Never use `font-weight:700` anywhere.
 
 ## Common Mistakes
 
@@ -148,8 +154,8 @@ looked fine until viewed in the actual failure condition.
 
 | Mistake | What it looks like | Fix |
 |---|---|---|
-| Copying a component snippet's plain text without `class="text"` | Text is invisible in dark mode (black text on the shell's dark-mode-black background) | Wrap the text in `<span class="text">` — see step 3's dark-mode check |
-| Leaving the primary CTA button's wrapping `<td>` without `class="mj-b"` | The solid black button loses its visible shape in dark mode (black button on black page, text still legible but no pill outline) | Add `class="mj-b"` to that `<td>` — see `knowledge/email-shell.md` |
+| Adding a `@media (prefers-color-scheme: dark)` override with `class="text"`/`class="mj-b"` hooks, to fix text/buttons that looked invisible in a dark-mode *preview* | Confirmed via a real Braze test send: white-on-white text and a shapeless button in NORMAL (light) rendering, every single send — Braze's CSS inliner applies the `@media`-scoped rule unconditionally, ignoring the media-query boundary entirely | Don't add one. Rely solely on `color-scheme:light;supported-color-schemes:light` (already in `email-shell.md`) to opt clients out of auto-inversion — no class hooks needed or safe |
+| Sizing/bolding/repadding the primary button beyond `buttons.md`'s documented spec | An assembled email used 18px/weight 600/padding 15px 40px instead of the approved 16px/weight 400/padding 12px 24px — an unflagged, unintentional drift | Match the documented button spec exactly; never use `font-weight:700` anywhere in this library |
 | Leaving raw Unicode punctuation (`·`, `–`, `—`, `→`) in copy or `alt` text | Mojibake garbage (e.g. `·` renders as `¬∑`) once pasted into an editor that doesn't honor UTF-8 | Use HTML entities instead: `&middot;`, `&ndash;`, `&mdash;`, `&rarr;` |
 | Deciding a "monday.com" mention doesn't need wrapping because it reads as plain prose (e.g. a venue name) rather than a designed link | Email client auto-linkifies it into a default blue underlined link, regardless of Figma's intent | Wrap **every** plain-text "monday.com" mention, no exceptions — see `braze-liquid-tags.md` §2 |
 

@@ -13,13 +13,18 @@
   content width. Every component snippet already follows this — don't change it per
   email.
 
-  Dark mode: this shell forces the email background to black and flips class="text"/
-  class="link" elements to white (see the media query below). The PRIMARY button variant
-  (buttons.md #1, solid black pill) needs its own escape — a black button on a black page
-  has no visible shape — so its wrapping <td> carries class="mj-b", which this shell's
-  dark-mode CSS flips to a white pill with black text. Keep that class on the primary
-  button; the other 3 button variants don't need it (their colors already contrast against
-  both a white and a black page as authored).
+  Dark mode: deliberately NOT handled via a custom @media (prefers-color-scheme: dark)
+  override — an earlier version of this shell had one (flipping text/buttons to white via
+  class="text"/class="mj-b"), but a real Braze test send proved it actively breaks every
+  send: Braze's CSS inliner ("CSS inlining enabled" in its editor) inlines whatever a
+  selector matches without respecting the @media boundary, so the dark-mode-only rule got
+  applied unconditionally — white text on a white background, and a button whose black
+  pill turned white and vanished, in NORMAL (light) rendering, not just in actual dark
+  mode. The `:root{color-scheme:light;supported-color-schemes:light;}` declaration below
+  is the correct, safe mitigation instead — it tells compliant clients this email is
+  light-only and they shouldn't auto-invert it at all, with no inlining risk since it's a
+  `:root` rule, not a class other markup depends on. Don't reintroduce a dark-mode class
+  override here or in any component snippet.
 -->
 <!doctype html>
 <html lang="en" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -67,7 +72,7 @@
       .moz-text-html .mj-column-per-100 { width:100% !important; max-width: 100%; }
     </style>
     <style type="text/css">@media only screen and (min-width: 320px){body::-webkit-scrollbar{display:none !important;}p, a{margin:0 !important;}} </style>
-    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}@media (prefers-color-scheme: dark){:root{color-scheme:dark;supported-color-schemes:dark light;}.b{background-color:#000000 !important;}.text,.text>div{color:#ffffff !important;}.link,.link>div{color:#ffffff !important;}.mj-b td{background:#ffffff !important;background-color:#ffffff !important;}.mj-b a{background:#ffffff !important;color:#000000 !important;}} </style>
+    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}</style>
   </head>
   <body style="word-spacing:normal;background-color:#ffffff;">
     <div aria-roledescription="email" class="b bBg" style="margin: auto; background-color: #ffffff;" role="article" lang="und" dir="auto">

@@ -9,22 +9,17 @@
   pill-shaped buttons — Outlook desktop doesn't support CSS border-radius, so without it
   the button renders as a square in Outlook.
 
-  Variant 4's text is wrapped in <span class="text"> — its #45454A color has no built-in
-  contrast against the shell's dark-mode black background (email-shell.md) without that
-  class forcing it white. Variants 2–3 don't need any dark-mode escape: their colors
-  (black-on-cream, brand purple-on-transparent) already work against both a white and a
-  black page as authored.
-
-  Variant 1 (PRIMARY CTA) is a solid black pill — invisible against the shell's dark-mode
-  black page background even though its white text stays legible, since the button has no
-  border to show its shape. Its wrapping <td align="center" style="padding:24px 40px;">
-  carries class="mj-b" so the shell's dark-mode CSS flips it to a white pill with black
-  text instead of vanishing. Keep that class when you copy this snippet.
+  Match variant 1's font values EXACTLY (16px, weight 400, padding 12px 24px) — don't
+  size it up or bold it "to make it stand out more." A test send caught exactly that drift
+  (an assembled email used 18px/weight 600/padding 15px 40px): bigger and bolder wasn't an
+  intentional choice, it was an unflagged deviation from this approved spec. This library
+  never uses font-weight:700 (true bold) anywhere — only 400 (regular) or 600 (semibold),
+  per design-tokens.md's typography scale.
 -->
 
 <!-- 1. PRIMARY CTA — solid black pill. Use once per email/touchpoint, the one action that matters most. -->
 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
-  <tbody><tr><td align="center" class="mj-b" style="padding:24px 40px;">
+  <tbody><tr><td align="center" style="padding:24px 40px;">
     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:180px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
       <span>Primary CTA text</span>
     </center></v:roundrect><![endif]-->
@@ -78,7 +73,7 @@
       <tbody><tr>
         <td align="center" bgcolor="transparent" role="presentation" style="border:0px;border-radius:100px;cursor:auto;font-style:normal;text-align:left;background:transparent;" valign="middle">
           <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#45454A;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:1px 0px;border-radius:100px;">
-            <img src="REPLACE_ICON.png" alt="" style="vertical-align: middle; margin-top: -3px; margin-right:4px;"><span class="text">Icon link text ></span></a>
+            <img src="REPLACE_ICON.png" alt="" style="vertical-align: middle; margin-top: -3px; margin-right:4px;"><span>Icon link text ></span></a>
         </td>
       </tr></tbody>
     </table>

@@ -26,16 +26,13 @@ underlined link — visually broken against the surrounding copy. Wrapping it yo
 the only way to control how it looks. Never leave `monday.com` as bare, untracked text.
 
 Pick the color variant that matches the surrounding text color in that section of the
-design. The light-background (black text) variant also carries `class="text"` — this
-mention sits inside body copy that's normally black, and needs to flip to white in dark
-mode exactly like the rest of that sentence (see `email-shell.md`'s dark-mode CSS); without
-that class it would stay black while the sentence around it turns white. The
-dark-background (white text) variant doesn't need it — it's already the color dark mode
-would flip it to.
+design — black text on a light/white background, white text on a dark/colored section
+fill. Don't add a dark-mode class to either variant — see `email-shell.md` for why this
+shell doesn't do CSS-media-query-based dark mode at all.
 
 **On a light background (black text):**
 ```html
-<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
+<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
 ```
 
 **On a dark background (white text):**

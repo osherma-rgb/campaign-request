@@ -27,6 +27,12 @@
   Known limitation: the logo image src is Figma's temporary asset URL (expires ~7 days
   from 2026-08-10) — re-host on Braze's asset library (or use the cataloged monday-com.png
   from references/asset-index.md) before any real send.
+  Corrected 2026-08-10 (same day, before this was ever sent): removed the custom dark-mode
+  CSS override (class="text"/"mj-b") — a real Braze test send of a different email in this
+  pipeline proved it breaks every send, not just dark mode, because Braze's CSS inliner
+  applies @media-scoped rules unconditionally (see email-shell.md). Also fixed the primary
+  button's font-size/weight/padding, which had drifted from buttons.md's approved
+  16px/regular/12px 24px spec to an unflagged 18px/semibold/15px 40px.
 -->
 <!doctype html>
 <html lang="en" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -74,7 +80,7 @@
       .moz-text-html .mj-column-per-100 { width:100% !important; max-width: 100%; }
     </style>
     <style type="text/css">@media only screen and (min-width: 320px){body::-webkit-scrollbar{display:none !important;}p, a{margin:0 !important;}} </style>
-    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}@media (prefers-color-scheme: dark){:root{color-scheme:dark;supported-color-schemes:dark light;}.b{background-color:#000000 !important;}.text,.text>div{color:#ffffff !important;}.link,.link>div{color:#ffffff !important;}.mj-b td{background:#ffffff !important;background-color:#ffffff !important;}.mj-b a{background:#ffffff !important;color:#000000 !important;}} </style>
+    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}</style>
   </head>
   <body style="word-spacing:normal;background-color:#f3f4f5;">
     <div aria-roledescription="email" class="b bBg" style="margin: auto; background-color: #f3f4f5;" role="article" lang="und" dir="auto">
@@ -96,12 +102,12 @@
       <!-- Body text — item's own copy, first-name tag applied, monday.com mentions wrapped -->
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
         <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 56px;text-align:left;background-color:#ffffff;">
-          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span class="text">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span>
             Hi {{${first_name} | default: 'there'}},
             <br><br>
-            Paz here, from the Product team at <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>.
+            Paz here, from the Product team at <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>.
             <br><br>
-            We&rsquo;re reaching out to understand how users get value from <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>, what could be improved, and how we can make setup smoother for teams like yours.
+            We&rsquo;re reaching out to understand how users get value from <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>, what could be improved, and how we can make setup smoother for teams like yours.
             <br><br>
             Would you be willing to speak to us via a 30 minute Zoom call to share your feedback?
             <br><br>
@@ -112,7 +118,7 @@
 
       <!-- Button — CTA link cross-checked against monday-reader's resolved cta_link -->
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
-        <tbody><tr><td align="center" class="mj-b" style="padding:24px 40px;background-color:#ffffff;">
+        <tbody><tr><td align="center" style="padding:24px 40px;background-color:#ffffff;">
           <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:180px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
             <span>Schedule a call</span>
           </center></v:roundrect><![endif]-->
@@ -120,7 +126,7 @@
           <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
             <tbody><tr>
               <td align="center" bgcolor="#000000" role="presentation" style="border:0px;border-radius:9999px;cursor:auto;font-style:normal;text-align:center;background:#000000;" valign="middle">
-                <a href="https://calendly.com/d/dz4t-5z7-n2y/chat-with-the-monday-com-product-team" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:18px;font-style:normal;font-weight:600;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:15px 40px;border-radius:9999px;">Schedule a call</a>
+                <a href="https://calendly.com/d/dz4t-5z7-n2y/chat-with-the-monday-com-product-team" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:12px 24px;border-radius:9999px;">Schedule a call</a>
               </td>
             </tr></tbody>
           </table>
@@ -131,12 +137,12 @@
       <!-- Closing text — sign-off + fine print -->
       <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
         <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 56px 40px;text-align:left;background-color:#ffffff;">
-          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span class="text">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span>
             I look forward to hearing from you,
             <br><br>
-            Paz, Product Manager, <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
+            Paz, Product Manager, <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
           </span></div>
-          <div style="font-family: Poppins, Arial; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #777777; padding-top:16px;"><span class="text">*Your gift card will be sent via email within 1 week of our call</span></div>
+          <div style="font-family: Poppins, Arial; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #777777; padding-top:16px;"><span>*Your gift card will be sent via email within 1 week of our call</span></div>
         </td></tr></tbody>
       </table>
 

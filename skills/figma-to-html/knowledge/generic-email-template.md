@@ -28,9 +28,9 @@ column doesn't exist on a different board, fall back to `monday-reader`'s normal
    used a Figma-hosted crop at 176×31px — same size/centering, just source the real logo
    asset instead of the temporary Figma URL), centered.
 3. **Body text** (one or more blocks) — white background, 640px wide,
-   `padding: 24px 56px`, `font: 15px/150% Poppins regular, color:#000000` (remember
-   `class="text"` for dark-mode — see `figma-to-html`'s verify loop), left-aligned. This is
-   the item's own copy, taken verbatim from its `Content:` text — don't rewrite it, just:
+   `padding: 24px 56px`, `font: 15px/150% Poppins regular, color:#000000`, left-aligned.
+   This is the item's own copy, taken verbatim from its `Content:` text — don't rewrite
+   it, just:
    - Replace the literal greeting placeholder (`Hi [First Name],` / `Dear {{...}}`) with
      the first-name substitution (`braze-liquid-tags.md` §1).
    - Wrap every `monday.com` mention per `braze-liquid-tags.md` §2 — the live examples
