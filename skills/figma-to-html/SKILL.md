@@ -3,9 +3,11 @@ name: figma-to-html
 description: >
   Use when given a Figma file/frame URL (or a monday.com campaign item) for a Lifecycle
   Marketing email and asked to turn it into HTML for Braze, build/convert/code a Figma
-  design into an email, or paste something into Braze. Also use when an already-assembled
-  Braze email looks broken — invisible text or buttons in dark mode, garbled punctuation
-  (mojibake) after pasting, or "monday.com" showing up as a stray blue underlined link.
+  design into an email, or paste something into Braze — including a monday item that has
+  no Figma link but its Design column says "Generic email template." Also use when an
+  already-assembled Braze email looks broken — invisible text or buttons in dark mode,
+  garbled punctuation (mojibake) after pasting, or "monday.com" showing up as a stray blue
+  underlined link.
 status: draft
 owner: osherma@monday.com
 ---
@@ -33,6 +35,11 @@ If given a monday.com item instead of a Figma URL directly, run the `monday-read
 first to resolve `{figma_url, cta_link}` from that item. Carry the `cta_link` through to
 step 3's CTA cross-check below. If given a Figma URL directly (no monday item), skip this
 step — there's no CTA link to cross-check against, so step 3's CTA check is skipped too.
+
+If `monday-reader` instead returns `{is_generic_template: true, content, cta_link}` (no
+`figma_url` — the item's Design column says "Generic email template"), skip step 1
+entirely and assemble directly from `knowledge/generic-email-template.md` using `content`
+as the copy and `cta_link` for the button, then go straight to step 3's checks.
 
 ### 1. Read the Figma design (mcp to Figma)
 
@@ -149,6 +156,7 @@ looked fine until viewed in the actual failure condition.
 ## Related
 
 - [monday-reader](../monday-reader/SKILL.md) — resolves the Figma URL + CTA link from a monday item, feeds this skill
+- [Generic email template](knowledge/generic-email-template.md) — for requests with no Figma design at all
 - [Design tokens](knowledge/design-tokens.md) — typography, colors, spacing, button variants
 - [Email shell](knowledge/email-shell.md) · [Component snippets](knowledge/components/)
 - [Braze liquid tags](knowledge/braze-liquid-tags.md) — the four required substitutions

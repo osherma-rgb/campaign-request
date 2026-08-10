@@ -1,0 +1,148 @@
+<!--
+  Phase 1 test output of the figma-to-html skill — first test of the new "generic email
+  template" rule (no Figma design at all).
+  Source monday item: https://monday.monday.com/boards/112753365/pulses/12669890031
+    ("Trial joiners interviews #2")
+  monday-reader resolution: link32 column empty, update text has a blank "Figma link:"
+  line — but the Design column (single_select_MjigC4Bz) = "Generic email template", so
+  per knowledge/generic-email-template.md this is NOT a "no design" stop condition. An
+  earlier session run got this wrong and reported it as a genuine gap; corrected here.
+  Content assembled directly from the item's own long_text column (labelled "Content:" in
+  both that column and the matching update), using knowledge/generic-email-template.md's
+  structure (spacer, logo header, body text, button, closing text, mandatory footer) —
+  confirmed against two real reference examples in the Drafts---email-requests Figma file,
+  one of which (node 23006:1629) has nearly identical copy to this exact item.
+  CTA link cross-check: monday-reader resolved cta_link =
+    https://calendly.com/d/dz4t-5z7-n2y/chat-with-the-monday-com-product-team
+    (link3 column + update text agree). Used as the button's href below — matches exactly.
+    The raw long_text column has this same URL glued onto the end of the fine-print
+    sentence with no separating space/newline ("...our callhttps://calendly.com/...") —
+    treated as a data artifact and dropped from the body copy, since the same link is
+    already the button's href; repeating it as broken run-on text would be a second bug,
+    not a faithful transcription.
+  Substitutions applied: "Hi [First Name]," -> first-name tag (braze-liquid-tags.md §1);
+  both "monday.com" mentions in the body wrapped per §2; the "[Link to book a time]"
+  placeholder removed from the body copy and represented as the actual button instead,
+  per generic-email-template.md's rule for bracket link placeholders.
+  Known limitation: the logo image src is Figma's temporary asset URL (expires ~7 days
+  from 2026-08-10) — re-host on Braze's asset library (or use the cataloged monday-com.png
+  from references/asset-index.md) before any real send.
+-->
+<!doctype html>
+<html lang="en" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <title></title>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      #outlook a { padding:0; }
+      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }
+      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }
+      p { display:block;margin:13px 0; }
+    </style>
+    <!--[if mso]>
+    <noscript>
+    <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+    </xml>
+    </noscript>
+    <![endif]-->
+    <!--[if lte mso 11]>
+    <style type="text/css">
+      .mj-outlook-group-fix { width:100% !important; }
+    </style>
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+      @media only screen and (min-width:480px) {
+        .mj-column-per-100 { width:100% !important; max-width: 100%; }
+      }
+    </style>
+    <style media="screen and (min-width:480px)">
+      .moz-text-html .mj-column-per-100 { width:100% !important; max-width: 100%; }
+    </style>
+    <style type="text/css">@media only screen and (min-width: 320px){body::-webkit-scrollbar{display:none !important;}p, a{margin:0 !important;}} </style>
+    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}@media (prefers-color-scheme: dark){:root{color-scheme:dark;supported-color-schemes:dark light;}.b{background-color:#000000 !important;}.text,.text>div{color:#ffffff !important;}.link,.link>div{color:#ffffff !important;}.mj-b td{background:#ffffff !important;background-color:#ffffff !important;}.mj-b a{background:#ffffff !important;color:#000000 !important;}} </style>
+  </head>
+  <body style="word-spacing:normal;background-color:#f3f4f5;">
+    <div aria-roledescription="email" class="b bBg" style="margin: auto; background-color: #f3f4f5;" role="article" lang="und" dir="auto">
+
+      <!-- Spacer — 40px on the #f3f4f5 background -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="font-size:0px;">
+          <div style="height:40px;line-height:40px;">&#8202;</div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Header — monday.com logo, centered, white background from here down -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
+        <tbody><tr><td style="padding:38px 40px;text-align:center;background-color:#ffffff;">
+          <img src="https://www.figma.com/api/mcp/asset/552c1f53-32d7-4e31-a4db-254130748b5a.png" alt="monday.com" width="176" style="border:0;display:block;margin:0 auto;outline:none;text-decoration:none;height:auto;max-width:100%;">
+        </td></tr></tbody>
+      </table>
+
+      <!-- Body text — item's own copy, first-name tag applied, monday.com mentions wrapped -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 56px;text-align:left;background-color:#ffffff;">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span class="text">
+            Hi {{${first_name} | default: 'there'}},
+            <br><br>
+            Paz here, from the Product team at <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>.
+            <br><br>
+            We&rsquo;re reaching out to understand how users get value from <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>, what could be improved, and how we can make setup smoother for teams like yours.
+            <br><br>
+            Would you be willing to speak to us via a 30 minute Zoom call to share your feedback?
+            <br><br>
+            As a token of our appreciation, we&rsquo;ll send a $50 gift card after the call.
+          </span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Button — CTA link cross-checked against monday-reader's resolved cta_link -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
+        <tbody><tr><td align="center" class="mj-b" style="padding:24px 40px;background-color:#ffffff;">
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:180px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
+            <span>Schedule a call</span>
+          </center></v:roundrect><![endif]-->
+          <!--[if !mso]><!-->
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+            <tbody><tr>
+              <td align="center" bgcolor="#000000" role="presentation" style="border:0px;border-radius:9999px;cursor:auto;font-style:normal;text-align:center;background:#000000;" valign="middle">
+                <a href="https://calendly.com/d/dz4t-5z7-n2y/chat-with-the-monday-com-product-team" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:18px;font-style:normal;font-weight:600;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:15px 40px;border-radius:9999px;">Schedule a call</a>
+              </td>
+            </tr></tbody>
+          </table>
+          <!--<![endif]-->
+        </td></tr></tbody>
+      </table>
+
+      <!-- Closing text — sign-off + fine print -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#ffffff;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:24px 56px 40px;text-align:left;background-color:#ffffff;">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;"><span class="text">
+            I look forward to hearing from you,
+            <br><br>
+            Paz, Product Manager, <a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" class="text" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
+          </span></div>
+          <div style="font-family: Poppins, Arial; font-size: 13px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #777777; padding-top:16px;"><span class="text">*Your gift card will be sent via email within 1 week of our call</span></div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Mandatory footer content block -->
+      {{content_blocks.${fotter_with_monday_logo}}}
+
+    </div>
+  </body>
+</html>

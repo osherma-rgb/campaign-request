@@ -3,8 +3,8 @@ name: monday-reader
 description: >
   Use when given a monday.com campaign item URL/ID for an email and asked to find its
   Figma design link or its CTA link, as the input step before running figma-to-html, or
-  when a monday item turns out to have no Figma design at all (a plain-text email) and
-  you need to recognize that rather than force a conversion.
+  when a monday item has no Figma link and you need to tell apart a genuine gap from a
+  recognized no-design request type (check the Design column first).
 status: draft
 owner: osherma@monday.com
 ---
@@ -37,6 +37,14 @@ Figma or HTML itself.
    If more than one distinct `figma.com` URL turns up across columns/updates, don't guess
    — ask the user which one is current.
 
+   If neither turns up anything, **before concluding there's no design**, check the item's
+   **Design** column (on board `112753365` this is column id `single_select_MjigC4Bz`) for
+   the exact text **"Generic email template"**. That's a recognized request type with no
+   per-item Figma design — hand off `is_generic_template: true` plus the item's own copy
+   (from `long_text` or an update's `Content:` line) instead of `figma_url`, per
+   `figma-to-html`'s `knowledge/generic-email-template.md`. Only report "no Figma design
+   found" if the Design column doesn't say this (or doesn't exist on a different board).
+
 3. **Get the CTA link.** Same approach — a link-type column meant for the campaign's CTA
    (e.g. a "CTA link" or the touchpoint's primary link column), or update text containing
    a `CTA link:` line. This is the source-of-truth link that `figma-to-html`'s primary
@@ -44,9 +52,11 @@ Figma or HTML itself.
    as a `monday.com` tracked link (e.g. it may be an external webinar/event registration
    URL).
 
-4. **Hand off.** Report back the resolved `{item_name, figma_url, cta_link}`. If either
-   the Figma URL or the CTA link can't be found, stop and say what's missing rather than
-   guessing or inventing one.
+4. **Hand off.** Report back the resolved `{item_name, figma_url, cta_link}` — or, for the
+   generic-template case, `{item_name, is_generic_template: true, content, cta_link}`. If
+   the CTA link can't be found, or no Figma URL exists AND the Design column doesn't say
+   "Generic email template", stop and say what's missing rather than guessing or inventing
+   one.
 
 ## DOs
 
@@ -69,7 +79,7 @@ Figma or HTML itself.
 
 | Mistake | What it looks like | Fix |
 |---|---|---|
-| Assuming every campaign item has a Figma design | The `link32`-style column is empty and the update text has a blank "Figma link:" line — real example: a plain-text research-recruitment email with copy sitting in a `long_text` column, no design at all | Report there's no Figma design for this item and stop — don't force a conversion or invent one |
+| Treating "no Figma URL" as always meaning "no design exists, stop here" | Real example: item `12669890031`, a $50-incentive research-recruitment email — `link32` empty, update text has a blank "Figma link:" line. This actually IS a recognized type (Design column = "Generic email template"), not a genuine gap — an earlier version of this skill wrongly stopped and reported it as missing | Check the Design column for "Generic email template" before concluding there's no design — see step 2 and `generic-email-template.md` |
 
 ## Related
 
