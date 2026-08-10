@@ -1,11 +1,11 @@
 ---
 name: figma-to-html
 description: >
-  Converts an approved Lifecycle Marketing email design in Figma into send-ready,
-  Braze-compatible HTML — mapping each section of the Figma frame to monday.com's
-  approved email components, applying required Braze personalization/liquid-tag
-  substitutions, and validating the HTML before handoff. Use when given a Figma
-  file/frame URL for an email and asked to turn it into HTML for Braze.
+  Use when given a Figma file/frame URL (or a monday.com campaign item) for a Lifecycle
+  Marketing email and asked to turn it into HTML for Braze, build/convert/code a Figma
+  design into an email, or paste something into Braze. Also use when an already-assembled
+  Braze email looks broken — invisible text or buttons in dark mode, garbled punctuation
+  (mojibake) after pasting, or "monday.com" showing up as a stray blue underlined link.
 status: draft
 owner: osherma@monday.com
 ---
@@ -133,6 +133,18 @@ show the result, don't ship it silently).
   of scope here.
 - ❌ Don't silently skip the CTA cross-check when a `cta_link` was supplied — a mismatch
   means the HTML is wrong, not the monday item.
+
+## Common Mistakes
+
+Found via real end-to-end runs against live monday items, not hypothetically — each one
+looked fine until viewed in the actual failure condition.
+
+| Mistake | What it looks like | Fix |
+|---|---|---|
+| Copying a component snippet's plain text without `class="text"` | Text is invisible in dark mode (black text on the shell's dark-mode-black background) | Wrap the text in `<span class="text">` — see step 3's dark-mode check |
+| Leaving the primary CTA button's wrapping `<td>` without `class="mj-b"` | The solid black button loses its visible shape in dark mode (black button on black page, text still legible but no pill outline) | Add `class="mj-b"` to that `<td>` — see `knowledge/email-shell.md` |
+| Leaving raw Unicode punctuation (`·`, `–`, `—`, `→`) in copy or `alt` text | Mojibake garbage (e.g. `·` renders as `¬∑`) once pasted into an editor that doesn't honor UTF-8 | Use HTML entities instead: `&middot;`, `&ndash;`, `&mdash;`, `&rarr;` |
+| Deciding a "monday.com" mention doesn't need wrapping because it reads as plain prose (e.g. a venue name) rather than a designed link | Email client auto-linkifies it into a default blue underlined link, regardless of Figma's intent | Wrap **every** plain-text "monday.com" mention, no exceptions — see `braze-liquid-tags.md` §2 |
 
 ## Related
 

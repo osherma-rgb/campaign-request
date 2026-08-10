@@ -1,10 +1,10 @@
 ---
 name: monday-reader
 description: >
-  Reads a Lifecycle Marketing monday.com campaign item and resolves the Figma design
-  link and the source-of-truth CTA link needed to run the figma-to-html skill. Use when
-  given a monday.com item URL/ID for an email campaign and asked to find its Figma design,
-  its CTA link, or as the input step before converting that item's design to HTML.
+  Use when given a monday.com campaign item URL/ID for an email and asked to find its
+  Figma design link or its CTA link, as the input step before running figma-to-html, or
+  when a monday item turns out to have no Figma design at all (a plain-text email) and
+  you need to recognize that rather than force a conversion.
 status: draft
 owner: osherma@monday.com
 ---
@@ -64,6 +64,12 @@ Figma or HTML itself.
 - ❌ Don't fabricate a Figma URL or CTA link when neither is present — ask the user.
 - ❌ Don't resolve ambiguity (multiple candidate links) by picking one silently.
 - ❌ Don't build the HTML here — that's `figma-to-html`'s job, not this skill's.
+
+## Common Mistakes
+
+| Mistake | What it looks like | Fix |
+|---|---|---|
+| Assuming every campaign item has a Figma design | The `link32`-style column is empty and the update text has a blank "Figma link:" line — real example: a plain-text research-recruitment email with copy sitting in a `long_text` column, no design at all | Report there's no Figma design for this item and stop — don't force a conversion or invent one |
 
 ## Related
 
