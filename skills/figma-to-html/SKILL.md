@@ -84,6 +84,19 @@ as the copy and `cta_link` for the button, then go straight to step 3's checks.
   text / CTA button / image / columns / list / header-logo), literal text content, and any
   link href already set in Figma. Note the background (light/dark) each section sits on —
   needed for step 3's `monday.com` color-matching.
+- **Never assume a background/overlay image is decorative because `get_design_context`
+  emitted no text/logo nodes for it.** A layer can be a flattened bitmap with a logo,
+  event details, or a headline baked in as pixels — there's nothing for code-gen to
+  extract, but the content is real and required. Before dropping any image as "unused"
+  or "just a pattern," open it (or the flattened node export) and look — see Common
+  Mistakes below for a real instance of this.
+- **Don't trust a raw fill's asset URL for a component instance without checking it
+  against that instance's own screenshot.** Figma's asset-export API can resolve an
+  overridden image fill to the component's default/master asset instead of what this
+  specific instance actually shows — silently swapping in wrong copy (wrong city, wrong
+  date, wrong icon). Cross-check: call `get_screenshot` (or `download_assets`'s `export`
+  field) on the specific instance node and compare it to the raw fill you're about to use.
+  If they don't match, use a flattened export of the instance instead of the raw fill.
 
 ### 2. Map to approved components → assemble HTML
 
@@ -261,6 +274,12 @@ silently. Uploading to the board is `email-localization-upload`'s job, not this 
   expire in about a week and would leave a live Braze template with broken images.
 - ❌ Don't resize, rebold, or repad the primary button "to make it pop" — match
   `buttons.md`'s documented values exactly. Never use `font-weight:700` anywhere.
+- ❌ Don't discard an image layer as "just an overlay/pattern" without opening it — it may
+  be a flattened bitmap carrying real logo/headline/event-detail content with no separate
+  text nodes for `get_design_context` to surface.
+- ❌ Don't use a component instance's raw fill asset URL at face value — verify it against
+  that instance's own screenshot first. Overridden image fills can resolve to the wrong
+  (default/master) asset.
 
 ## Common Mistakes
 
@@ -275,6 +294,8 @@ looked fine until viewed in the actual failure condition.
 | Leaving raw Unicode punctuation (`·`, `–`, `—`, `→`) in copy or `alt` text | Mojibake garbage (e.g. `·` renders as `¬∑`) once pasted into an editor that doesn't honor UTF-8 | Use HTML entities instead: `&middot;`, `&ndash;`, `&mdash;`, `&rarr;` |
 | Deciding a "monday.com" mention doesn't need wrapping because it reads as plain prose (e.g. a venue name) rather than a designed link | Email client auto-linkifies it into a default blue underlined link, regardless of Figma's intent | Wrap **every** plain-text "monday.com" mention, no exceptions — see `braze-liquid-tags.md` §2 |
 | Leaving a literal `&` between query params inside `href`/`src` values (every tracked link has several) | Invalid HTML — usually silently tolerated, but not guaranteed, especially after CSS inlining already showed this pipeline can't be trusted to degrade gracefully | Escape every attribute-value `&` as `&amp;`, not just visible text |
+| Treating a hero/banner background image as decorative overlay and dropping it because `get_design_context` returned no text/logo nodes for it | The assembled HTML was missing the logo lockup, event location/date, and headline entirely — they were baked as pixels into that "overlay" layer, not separate live layers | Open every image layer (or its flattened node export) before deciding it's unused; treat "no code nodes returned" as inconclusive, not proof of decorative-only content |
+| Using a component instance's raw fill asset URL (from `get_design_context`/`download_assets`) without checking it against that instance's actual screenshot | A checkmark icon rendered as a heart, and a hero background showed the wrong city/date ("NYC, Javits Center Oct 27-29" instead of the real "Excel London Nov 23-24") — the raw fill resolved to the component's default/master asset, not this instance's override | Cross-check the raw fill against `get_screenshot` for that instance; on a mismatch, use a flattened `download_assets` export of the instance node instead, cropping to the specific element if needed |
 
 ## Related
 
