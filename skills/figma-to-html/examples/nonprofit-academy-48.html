@@ -1,0 +1,258 @@
+<!--
+  Phase 1 test output of the figma-to-html skill, via monday-reader.
+  Source monday item: https://monday.monday.com/boards/112753365/pulses/12759914421
+    ("Nonprofit academy 48")
+  Design column = "Designed figma" (not "Generic email template") — normal Figma path.
+  Figma: https://www.figma.com/design/RA6l3v3neqpt344DjhlNZf/...?node-id=816-828
+    (item's own link32 column, matches update text exactly)
+  CTA link: https://forms.monday.com/forms/fb434f99c1b3ace1e0ab432ff8c4ecf6?r=use1&Source=academy50
+    (item's own link3 column + update text agree)
+
+  CTA cross-check / override: the PRIMARY "Register here" button in the Figma file itself
+  links to https://monday.com/academy/catalog?type=Webinar&tags=Nonprofit — a generic
+  catalog page, NOT the item's resolved cta_link. Per the skill's CTA cross-check rule,
+  the primary button's href below is the resolved cta_link, overriding Figma's own value
+  (the HTML is what gets fixed, never the monday item's value).
+
+  Links intentionally NOT overridden: (1) the top banner image is a clickable image with
+  its own distinct href (a general "monday for nonprofits" link, not this campaign's
+  tracked form) — kept as-is, since it isn't "the primary CTA" this skill's cross-check
+  rule governs. (2) the five inline "Register here >" / "View the schedule >" links in the
+  topic list are each a specific, different webinar/catalog URL, not the main tracked CTA
+  — also kept verbatim.
+
+  First-name tag: Figma's literal text is only {{${first_name}}}, missing the
+  "| default: 'there'" fallback that braze-liquid-tags.md §1 requires — added it rather
+  than transcribing the incomplete tag verbatim.
+  monday.com: 5 bare mentions found (body copy, donor-management blurb, task/project
+  blurb, and two in the closing fine-print) — all wrapped per §2. The link6 topic-specific
+  links and the "data policy" link are untouched (real, distinct hrefs, not monday.com
+  brand mentions).
+  Minor copy artifact fixed: the testimonial sentence's quote marks were garbled in the
+  source ("incredibly helpful, "inspiring", " and "a valuable learning tool".) — corrected
+  the punctuation without changing any words, per this session's precedent for treating
+  clear data artifacts as fixable rather than faithfully reproducing them.
+  Typography deviations flagged: headline/closing-line "Poppins Medium" has no exact match
+  in design-tokens.md (options are 600/400 only) — used regular (400) as the closer visual
+  match. The repeated 5-block topic list uses an 18px semibold heading, not documented in
+  design-tokens.md's scale but clearly deliberate (identical across all 5 blocks) — used as
+  designed, worth adding to the typography table.
+  No dark-mode CSS, no class="text"/"mj-b", button matches buttons.md's exact
+  16px/regular/12px 24px spec (this session's corrected rules).
+  Known limitation: all image srcs are Figma's temporary asset URLs (expire ~7 days from
+  2026-08-10) — re-host before any real send.
+-->
+<!doctype html>
+<html lang="en" dir="auto" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+    <title></title>
+    <!--[if !mso]><!-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+      #outlook a { padding:0; }
+      body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+      table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }
+      img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }
+      p { display:block;margin:13px 0; }
+    </style>
+    <!--[if mso]>
+    <noscript>
+    <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+    </xml>
+    </noscript>
+    <![endif]-->
+    <!--[if lte mso 11]>
+    <style type="text/css">
+      .mj-outlook-group-fix { width:100% !important; }
+    </style>
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" type="text/css">
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+    </style>
+    <!--<![endif]-->
+    <style type="text/css">
+      @media only screen and (min-width:480px) {
+        .mj-column-per-100 { width:100% !important; max-width: 100%; }
+      }
+    </style>
+    <style media="screen and (min-width:480px)">
+      .moz-text-html .mj-column-per-100 { width:100% !important; max-width: 100%; }
+    </style>
+    <style type="text/css">@media only screen and (min-width: 320px){body::-webkit-scrollbar{display:none !important;}p, a{margin:0 !important;}} </style>
+    <style type="text/css">:root{color-scheme:light;supported-color-schemes:light;}</style>
+  </head>
+  <body style="word-spacing:normal;background-color:#ffffff;">
+    <div aria-roledescription="email" class="b bBg" style="margin: auto; background-color: #ffffff;" role="article" lang="und" dir="auto">
+
+      <!-- Spacer — 40px on #f3f4f5 -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;background-color:#f3f4f5;">
+        <tbody><tr><td style="font-size:0px;">
+          <div style="height:40px;line-height:40px;">&#8202;</div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Top banner — clickable image, own distinct href per top-of-file note (not overridden) -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:32px 40px;text-align:center;">
+          <a href="https://forms.monday.com/forms/580f72bfa5b608f5f459115f2cd3bee4?r=use1" target="_blank">
+            <img src="https://www.figma.com/api/mcp/asset/6a44dce8-e2ca-41a3-82ca-9602d4a63e22.png" alt="monday for nonprofits" width="560" style="border:0;display:block;margin:0 auto;outline:none;text-decoration:none;width:100%;max-width:100%;height:auto;border-radius:8px;">
+          </a>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Headline — closest documented token to "Poppins Medium" (H1, 48px regular) -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:0px 40px 16px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 48px; font-style: normal; font-weight: 400; letter-spacing: -0.01em; line-height: 114%; text-align: center; text-decoration: none; text-transform: none; color: #000000;">You&rsquo;re invited! Nonprofit academy</div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Inset/card image — the video-thumbnail + grant-dashboard graphic -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:16px 40px 24px;text-align:center;">
+          <img src="https://www.figma.com/api/mcp/asset/3559ebc4-1f4f-496b-8e66-4f9e24f1688a.png" alt="Nonprofit academy course preview" width="560" style="border:0;display:block;margin:0 auto;outline:none;text-decoration:none;width:100%;max-width:100%;height:auto;">
+        </td></tr></tbody>
+      </table>
+
+      <!-- Body paragraph — 15px regular left-aligned per design-tokens.md's default body style -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:0px 40px 24px;text-align:left;">
+          <div style="font-family: Poppins, Arial; font-size: 15px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: left; text-decoration: none; text-transform: none; color: #000000;">
+            Dear {{${first_name} | default: 'there'}}, we&rsquo;re here to support your mission. That&rsquo;s why we created the <span style="font-weight: 600;">Nonprofit Academy</span> - free training designed just for nonprofits.
+            <br><br>
+            Join our weekly Zoom sessions to learn <a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a> step by step and build the most common nonprofit workflows with confidence.
+            <br><br>
+            Already more than 10,000 people have taken part, calling them &ldquo;incredibly helpful,&rdquo; &ldquo;inspiring,&rdquo; and &ldquo;a valuable learning tool.&rdquo;
+          </div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Primary CTA — solid black pill, buttons.md exact spec. href = monday-reader's resolved cta_link, overriding Figma's generic catalog link. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td align="center" style="padding:16px 40px 24px;">
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:46px;v-text-anchor:middle;width:180px;" arcsize="50%" stroke="f" fill="t" fillcolor="#000000"><w:anchorlock/><center style="color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-weight:400;mso-line-height-rule:exactly">
+            <span>Register here</span>
+          </center></v:roundrect><![endif]-->
+          <!--[if !mso]><!-->
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+            <tbody><tr>
+              <td align="center" bgcolor="#000000" role="presentation" style="border:0px;border-radius:9999px;cursor:auto;font-style:normal;text-align:center;background:#000000;" valign="middle">
+                <a href="https://forms.monday.com/forms/fb434f99c1b3ace1e0ab432ff8c4ecf6?r=use1&amp;Source=academy50" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:12px 24px;border-radius:9999px;">Register here</a>
+              </td>
+            </tr></tbody>
+          </table>
+          <!--<![endif]-->
+        </td></tr></tbody>
+      </table>
+
+      <!-- Topic list — 5 repeated icon + heading + description + own-link blocks. 18px semibold heading flagged as a real, deliberate size not yet in design-tokens.md. -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:0px 40px 24px;">
+
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin-bottom:24px;">
+            <tbody><tr>
+              <td width="120" valign="top">
+                <img src="https://www.figma.com/api/mcp/asset/f17ed50b-d3d9-40a1-a438-4b5220f1f2f8.png" alt="" width="120" style="border:0;display:block;">
+              </td>
+              <td width="16"></td>
+              <td valign="top" style="font-family: Poppins, Arial; color:#000000;">
+                <div style="font-size:18px;font-weight:600;line-height:150%;">Donor management</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;">Unlock the fundraising potential of your nonprofit. Leverage <a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>&rsquo;s CRM to efficiently build lasting relationships with your donors.</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;"><a href="https://monday.com/academy/view/webinar/donor-management-academy-19-aug-2026" target="_blank" style="color:#000000;text-decoration:underline;">Register here &gt;</a></div>
+              </td>
+            </tr></tbody>
+          </table>
+
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin-bottom:24px;">
+            <tbody><tr>
+              <td width="120" valign="top">
+                <img src="https://www.figma.com/api/mcp/asset/a7f266ad-79bc-47c6-9c66-e3825891f259.png" alt="" width="120" style="border:0;display:block;">
+              </td>
+              <td width="16"></td>
+              <td valign="top" style="font-family: Poppins, Arial; color:#000000;">
+                <div style="font-size:18px;font-weight:600;line-height:150%;">Grant management</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;">Never miss a grant deadline again. Break down a daunting application into manageable parts with their own deadlines and delegated owners.</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;"><a href="https://monday.com/academy/view/webinar/grant-management-nonprofit-academy-29-jul-2026" target="_blank" style="color:#000000;text-decoration:underline;">Register here &gt;</a></div>
+              </td>
+            </tr></tbody>
+          </table>
+
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin-bottom:24px;">
+            <tbody><tr>
+              <td width="120" valign="top">
+                <img src="https://www.figma.com/api/mcp/asset/bb140613-e642-41e6-95a4-9b015b3ed784.png" alt="" width="120" style="border:0;display:block;">
+              </td>
+              <td width="16"></td>
+              <td valign="top" style="font-family: Poppins, Arial; color:#000000;">
+                <div style="font-size:18px;font-weight:600;line-height:150%;">Task &amp; project management</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;">The perfect introduction course for any nonprofit getting started on <a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>. Begin with simple task management, then move to more complex projects.</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;"><a href="https://monday.com/academy/view/webinar/task-&amp;-project-management-nonprofit-academy-3-aug-2026" target="_blank" style="color:#000000;text-decoration:underline;">Register here &gt;</a></div>
+              </td>
+            </tr></tbody>
+          </table>
+
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="margin-bottom:24px;">
+            <tbody><tr>
+              <td width="120" valign="top">
+                <img src="https://www.figma.com/api/mcp/asset/9f2be703-88a2-4eac-a22a-592131049da6.png" alt="" width="120" style="border:0;display:block;">
+              </td>
+              <td width="16"></td>
+              <td valign="top" style="font-family: Poppins, Arial; color:#000000;">
+                <div style="font-size:18px;font-weight:600;line-height:150%;">Volunteer management</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;">Manage your volunteers from A to Z all in one place. From registration forms to work allocation, collecting feedback to report building, this solution has it all.</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;"><a href="https://monday.com/academy/view/webinar/volunteer-management-nonprofit%20academy-20-aug-2026" target="_blank" style="color:#000000;text-decoration:underline;">Register here &gt;</a></div>
+              </td>
+            </tr></tbody>
+          </table>
+
+          <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+            <tbody><tr>
+              <td width="120" valign="top">
+                <img src="https://www.figma.com/api/mcp/asset/b9997709-bed5-495e-a96d-46d9ef4eb740.png" alt="" width="120" style="border:0;display:block;">
+              </td>
+              <td width="16"></td>
+              <td valign="top" style="font-family: Poppins, Arial; color:#000000;">
+                <div style="font-size:18px;font-weight:600;line-height:150%;">Or drop into our consultation sessions</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;">Twice weekly, open consultation sessions where nonprofits can drop in and ask a quick question.</div>
+                <div style="font-size:15px;font-weight:400;line-height:150%;padding-top:8px;"><a href="https://monday.com/academy/catalog?type=Webinar&amp;tags=Nonprofit" target="_blank" style="color:#000000;text-decoration:underline;">View the schedule &gt;</a></div>
+              </td>
+            </tr></tbody>
+          </table>
+
+        </td></tr></tbody>
+      </table>
+
+      <!-- Closing — 24px, host name + role, then 14px fine print with 2 more monday.com mentions wrapped + the real "data policy" link kept as-is -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:8px 40px 0px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 24px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 150%; text-align: center; text-decoration: none; text-transform: none; color: #000000;">Join me, Alexander Jones,<br>your nonprofit success manager</div>
+        </td></tr></tbody>
+      </table>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="direction:ltr;font-size:0px;padding:8px 40px 10px;text-align:center;">
+          <div style="font-family: Poppins, Arial; font-size: 14px; font-style: normal; font-weight: 400; letter-spacing: 0px; line-height: 130%; text-align: center; text-decoration: none; text-transform: none; color: #000000;">Everyone will work on their own <a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a> account and regular <a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a> <a href="https://monday.com/trustcenter/privacy" target="_blank" style="color:#000000;text-decoration:underline;">data policy</a> applies. Sessions will be recorded.</div>
+        </td></tr></tbody>
+      </table>
+
+      <!-- Partner logo strip image, full-bleed -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody><tr><td style="padding:0px;text-align:center;">
+          <img src="https://www.figma.com/api/mcp/asset/7f21bcd6-0cd3-4140-8d72-ec5b1eaea60c.png" alt="Habitat for Humanity, United Way, Feeding America, Make-A-Wish, and other nonprofit partners" width="640" style="border:0;display:block;outline:none;text-decoration:none;width:100%;max-width:100%;height:auto;">
+        </td></tr></tbody>
+      </table>
+
+      <!-- Mandatory footer content block -->
+      {{content_blocks.${fotter_with_monday_logo}}}
+
+    </div>
+  </body>
+</html>

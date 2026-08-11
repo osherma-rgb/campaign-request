@@ -27,7 +27,7 @@
     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
       <tbody><tr>
         <td align="center" bgcolor="#000000" role="presentation" style="border:0px;border-radius:9999px;cursor:auto;font-style:normal;text-align:center;background:#000000;" valign="middle">
-          <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:12px 24px;border-radius:9999px;">Primary CTA text</a>
+          <a href="https://monday.com/?utm_campaign=REPLACE&amp;utm_medium=email&amp;utm_source=braze" target="_blank" style="display:inline-block;background:#000000;color:#FFFFFF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:12px 24px;border-radius:9999px;">Primary CTA text</a>
         </td>
       </tr></tbody>
     </table>
@@ -41,7 +41,7 @@
     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;width:100%;max-width:560px;line-height:100%;">
       <tbody><tr>
         <td align="center" bgcolor="#F6F1EE" role="presentation" style="border:0px;border-radius:8px;cursor:auto;font-style:normal;text-align:left;background:#F6F1EE;" valign="middle">
-          <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;width:100%;background:#F6F1EE;color:#000000;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:8px 29px 8px 16px;border-radius:8px;">Secondary button text ></a>
+          <a href="https://monday.com/?utm_campaign=REPLACE&amp;utm_medium=email&amp;utm_source=braze" target="_blank" style="display:inline-block;width:100%;background:#F6F1EE;color:#000000;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:8px 29px 8px 16px;border-radius:8px;">Secondary button text ></a>
         </td>
       </tr></tbody>
     </table>
@@ -58,7 +58,7 @@
     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
       <tbody><tr>
         <td align="center" bgcolor="transparent" role="presentation" style="border:0px;border-bottom:1px solid #6161FF;cursor:auto;font-style:normal;text-align:center;background:transparent;" valign="middle">
-          <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#6161FF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:0px;">Outline link text ></a>
+          <a href="https://monday.com/?utm_campaign=REPLACE&amp;utm_medium=email&amp;utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#6161FF;font-family:Poppins, Arial;font-size:16px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:0px;">Outline link text ></a>
         </td>
       </tr></tbody>
     </table>
@@ -72,7 +72,7 @@
     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
       <tbody><tr>
         <td align="center" bgcolor="transparent" role="presentation" style="border:0px;border-radius:100px;cursor:auto;font-style:normal;text-align:left;background:transparent;" valign="middle">
-          <a href="https://monday.com/?utm_campaign=REPLACE&utm_medium=email&utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#45454A;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:1px 0px;border-radius:100px;">
+          <a href="https://monday.com/?utm_campaign=REPLACE&amp;utm_medium=email&amp;utm_source=braze" target="_blank" style="display:inline-block;background:transparent;color:#45454A;font-family:Poppins, Arial;font-size:15px;font-style:normal;font-weight:400;line-height:140%;margin:0;text-decoration:none;text-transform:none;padding:1px 0px;border-radius:100px;">
             <img src="REPLACE_ICON.png" alt="" style="vertical-align: middle; margin-top: -3px; margin-right:4px;"><span>Icon link text ></span></a>
         </td>
       </tr></tbody>

@@ -32,13 +32,15 @@ shell doesn't do CSS-media-query-based dark mode at all.
 
 **On a light background (black text):**
 ```html
-<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
+<a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#000000; cursor: auto; white-space:nowrap">monday.com</a>
 ```
 
 **On a dark background (white text):**
 ```html
-<a href="https://monday.com/?utm_medium=email&utm_source=braze&utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#FFFFFF; cursor: auto; white-space:nowrap">monday.com</a>
+<a href="https://monday.com/?utm_medium=email&amp;utm_source=braze&amp;utm_campaign=multi-en-other-multi-n/a-email" style="text-decoration: none; color:#FFFFFF; cursor: auto; white-space:nowrap">monday.com</a>
 ```
+
+Note the `&amp;` between query params — a literal `&` inside an HTML attribute value is technically invalid HTML, and per this session's character-encoding rule (`figma-to-html/SKILL.md`), every attribute value gets the same entity treatment as visible text.
 
 ## 3. Magic link CTA
 
