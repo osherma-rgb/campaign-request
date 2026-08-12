@@ -87,3 +87,10 @@ don't silently build just the linked fragment.
   exactly, every time. Never `font-weight:700` anywhere in this library.
 - **Every plain "monday.com" mention** gets wrapped in the tracked anchor (Braze) or styled
   span (HubSpot) — no exceptions for mentions that read as plain prose.
+- **Subject/preheader div: plain characters, no ALL-CAPS.** Confirmed 2026-08-12 against a
+  real Braze preview (monday item 12759914421): the hidden `{subject}###{preheader}` div is
+  extracted as raw text, so an HTML entity like `&#39;` never decodes — it showed up literally
+  as `&#39;` in Braze's Subject line field. Use a plain `'`/`&` in that div only (every other
+  text node still gets full entity escaping as usual), and lowercase any ALL-CAPS word from
+  the source copy ("FREE" → "free", "NOW" → "now") — visible body copy is unaffected. See
+  `knowledge/email-love-shell.md` → "Subject line + preheader".
