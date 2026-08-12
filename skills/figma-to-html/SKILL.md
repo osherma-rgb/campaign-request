@@ -234,6 +234,12 @@ Before handing off, verify: exactly one root-level `.html`; every `src="Images/�
 to a file that exists; no `figma.com/api/mcp/asset/…` URLs survive anywhere; nothing in
 `Images/` is unreferenced.
 
+Save the finished ZIP to the current user's Desktop by default (`~/Desktop/<campaign-name>.zip`
+— resolve `~` to the invoking user's home directory, never hard-code a specific username or
+absolute path from a prior session) so it's somewhere the user will actually find it, rather
+than leaving it in a temp/scratch directory. If the user names a different location, use that
+instead.
+
 Present the final result to the user before calling it done — the assembled HTML for review,
 and the ZIP path if you built one. Phase 1 is manual: always show the result, don't ship it
 silently. Uploading to the board is `email-localization-upload`'s job, not this skill's.
