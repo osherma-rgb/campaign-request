@@ -25,15 +25,25 @@ template, writing the link back to the item.
 
 ## The only writes this skill is allowed to make
 
-These four values are fixed. They are not parameters to infer per run, and nothing about a
-request should change them.
+These values are fixed. They are not parameters to infer per run, and nothing about a
+request should change them. The group is the one exception — it's fixed **per caller**,
+not per run: which of the two groups below applies depends on who invoked this skill, never
+on anything in the request itself.
 
 | What | Value |
 |---|---|
 | Board | `18409935750` — Email Localization Uploads (Subitem method) |
-| Group | `group_mm64c9pb` — "Email Requests" |
+| Group | See table below — depends on the caller |
 | ZIP column | `file_mm24s6ep` — "ZIP File" |
 | Trigger | `color_mm2fex1q` — "Run en-US", label **`Run EN-US`** |
+
+| Caller | Group |
+|---|---|
+| Human submitter (this skill invoked directly/manually) | `group_mm64c9pb` — "Email Requests" |
+| [`campaign-pipeline`](../campaign-pipeline/SKILL.md) orchestrator (agent-created, no human ZIP review) | `group_mm655ecf` — "Campaign Request" |
+
+The two groups exist precisely so agent-created items never mix with human-submitted ones on
+the same shared board. If it's ambiguous which caller this is, ask rather than guessing.
 
 Anything outside that set is out of scope for this skill — see DON'Ts.
 
@@ -52,8 +62,10 @@ then fails, which is noisier and harder to unwind than just checking up front:
 
 ### 2. Create the item
 
-`create_item` on board `18409935750` with `group_id: "group_mm64c9pb"`. Name it after the
-email/campaign — reuse the campaign request item's name so the two boards line up.
+`create_item` on board `18409935750` with the `group_id` for this caller — see the table
+above (`group_mm64c9pb` for a human submitter, `group_mm655ecf` when invoked from
+`campaign-pipeline`). Name it after the email/campaign — reuse the campaign request item's
+name so the two boards line up.
 
 **Check for an existing item with that name in that group first.** If one exists, stop and
 ask rather than creating a near-duplicate: this board is shared team infrastructure with 200+
@@ -91,9 +103,11 @@ a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing jus
 ## DOs
 
 - ✅ Validate the ZIP locally before creating anything on the board.
-- ✅ Show the user what you're about to do (item name, group, filename) and get a go-ahead
-  before the first write — this is shared team infrastructure wired to live Braze sends, the
-  same bar `campaign-brief` applies to publishing on a shared board.
+- ✅ For a human submitter: show the user what you're about to do (item name, group,
+  filename) and get a go-ahead before the first write — this is shared team infrastructure
+  wired to live Braze sends, the same bar `campaign-brief` applies to publishing on a shared
+  board. For the `campaign-pipeline` orchestrator: no go-ahead pause — its dedicated
+  `group_mm655ecf` lane is the safety boundary instead, by that skill's own design.
 - ✅ Reuse the campaign request's item name so the request board and this board correspond.
 
 ## DON'Ts
@@ -105,9 +119,9 @@ a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing jus
   and a real Braze write. These emails are English-only; there is never a reason to touch them.
   `color_mm3r373` (es-MX) is the easiest to hit by mistake — "ES" and "EN" are one keystroke
   apart and a prior instruction in this project's history contained exactly that slip.
-- ❌ **Never create an item in any group but `group_mm64c9pb`.** The other groups
-  (Winback, Agents Trial Onboarding, Newsletter, …) are live campaign sequences owned by
-  other people.
+- ❌ **Never create an item in any group but the two listed above** (`group_mm64c9pb` or
+  `group_mm655ecf`, chosen by caller). The other groups (Winback, Agents Trial Onboarding,
+  Newsletter, …) are live campaign sequences owned by other people.
 - ❌ **Never modify an existing item on this board** — not its ZIP, not its Run columns, not
   its name. Only ever the item this skill just created. Existing items map to live Braze
   templates.
@@ -131,4 +145,5 @@ a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing jus
 
 - [figma-to-html](../figma-to-html/SKILL.md) — produces the ZIP this skill uploads
 - [monday-reader](../monday-reader/SKILL.md) — resolves the campaign request's Figma URL + CTA link
+- [campaign-pipeline](../campaign-pipeline/SKILL.md) — runs this skill as the final automatic step of the full monday → Braze chain
 - [Email Love shell](../figma-to-html/knowledge/email-love-shell.md) — the HTML structure the pipeline expects
