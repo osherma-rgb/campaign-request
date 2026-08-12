@@ -165,6 +165,10 @@ the user instead of looping forever.
   this pipeline has multiple `&` between query params (`?utm_medium=email&utm_source=...`).
   Escape those as `&amp;` too; don't assume "most clients tolerate it" is good enough after
   what CSS inlining already did to the dark-mode rule.
+- **Subject line + preheader div**: the opposite rule applies here — see
+  `email-love-shell.md` → "Subject line + preheader". Use plain, unescaped `'`/`&` inside
+  that one hidden div (it's extracted as raw text, entities never decode), and lowercase any
+  ALL-CAPS word from the source copy. Don't apply the entity-escaping rule above to this div.
 - **Platform-specific substitutions**: apply the file matching the platform confirmed in
   step 0 — never both, never guess.
 
@@ -302,6 +306,8 @@ looked fine until viewed in the actual failure condition.
 | Leaving a literal `&` between query params inside `href`/`src` values (every tracked link has several) | Invalid HTML — usually silently tolerated, but not guaranteed, especially after CSS inlining already showed this pipeline can't be trusted to degrade gracefully | Escape every attribute-value `&` as `&amp;`, not just visible text |
 | Treating a hero/banner background image as decorative overlay and dropping it because `get_design_context` returned no text/logo nodes for it | The assembled HTML was missing the logo lockup, event location/date, and headline entirely — they were baked as pixels into that "overlay" layer, not separate live layers | Open every image layer (or its flattened node export) before deciding it's unused; treat "no code nodes returned" as inconclusive, not proof of decorative-only content |
 | Using a component instance's raw fill asset URL (from `get_design_context`/`download_assets`) without checking it against that instance's actual screenshot | A checkmark icon rendered as a heart, and a hero background showed the wrong city/date ("NYC, Javits Center Oct 27-29" instead of the real "Excel London Nov 23-24") — the raw fill resolved to the component's default/master asset, not this instance's override | Cross-check the raw fill against `get_screenshot` for that instance; on a mismatch, use a flattened `download_assets` export of the instance node instead, cropping to the specific element if needed |
+| HTML-entity-escaping the subject/preheader hidden div the same way as visible body text | A real Braze preview showed the literal string `You&#39;re invited...` in the Subject line field — the pipeline extracts that div as raw text and never decodes entities, so `&#39;` never became an apostrophe | Use plain, unescaped characters (`'`, `&`) inside the subject/preheader div only — see `email-love-shell.md` → "Subject line + preheader" |
+| Copying an ALL-CAPS word ("FREE", "NOW") from the source copy straight into the subject/preheader div | Renders as shouting caps in the inbox subject line / preview text | Lowercase any ALL-CAPS word when placing subject/preheader text into that div — visible body copy is unaffected |
 
 ## Related
 

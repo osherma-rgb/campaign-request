@@ -93,6 +93,32 @@ MJML reset, the MSO group fix, the Poppins webfont (`<link>` + `@import` + `@fon
 breakpoint rules, and **the dark-mode block**. Do not hand-edit the dark-mode block — copy it
 as-is. It is the one part of this file where "close enough" has already cost us a broken send.
 
+## Subject line + preheader
+
+Right after `<body>` opens (before the visible content), the real export carries the
+subject line and preheader as a single hidden `div`, joined by a literal `###`:
+
+```html
+<div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">{subject}###{preheader}</div>
+```
+
+Two rules for what goes inside it, both confirmed against a real Braze preview render
+(2026-08-12, monday item 12759914421):
+
+- **Plain characters only — never an HTML entity.** The pipeline extracts this div as raw
+  text, not rendered HTML, so entities are never decoded. A real send showed the literal
+  string `You&#39;re invited...` in the Subject line field of Braze's preview — the `&#39;`
+  never became an apostrophe. Use a plain `'` and a plain `&` here even though that makes
+  this one div's inner text not strictly-valid HTML by itself; that trade-off is intentional
+  and confined to this div only. Every *other* text node in the email still needs full entity
+  escaping per the Character encoding rule below — this is the one exception, and it exists
+  because this div is never rendered as HTML in the first place.
+- **Never use an ALL-CAPS word.** Subject and preheader must be normal sentence case even if
+  the source copy (a monday item's "Subject line:" / "Preview text:" update text, or Figma)
+  has one in full caps (e.g. "FREE", "NOW") — lowercase it when placing it in this div. This
+  applies only to the hidden subject/preheader div, not to visible body copy elsewhere in the
+  email, which follows the design as given.
+
 ## What the export does NOT contain
 
 Verified against the real ZIP — all absent:
