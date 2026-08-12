@@ -35,6 +35,7 @@ unscoped rule. Don't.**
 | `r mj-w` | each section wrapper `<div>` (one per content block) | scopes every dark-mode text rule |
 | `mj-b` | the wrapper `<div>` around a button | flips the button to a white pill in dark mode |
 | `text` | each text-bearing `<div>` | the actual text-color target (needs an `.mj-w` ancestor) |
+| `link` | any inline `<a>` that carries its own explicit `color:` (e.g. a tracked `monday.com` mention, `braze-liquid-tags.md` §2) | flips that link's own color in dark mode — a parent `.mj-w .text` rule doesn't reach a descendant with its own explicit color, so links need this separately |
 | `mj-column-per-100 mj-outlook-group-fix f mj-c nc` | a full-width column `<div>` | MJML column contract |
 
 Real exports additionally stamp a random per-element hash class (`cac-76`, `ab0-73`) on each

@@ -13,6 +13,19 @@ verification step.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Tracked `monday.com` anchors keep their light-mode black color in dark mode on the
+  Email Love shell path.** Caught on a real Braze send for monday item `12669890031`
+  ("Trial joiners interviews #2"): the shell's `.mj-w .text` dark-mode rule flips the
+  surrounding paragraph white, but doesn't reach a descendant `<a>` that already carries
+  its own explicit inline `color:#000000` — so the link stayed black-on-#1f1f1f, nearly
+  unreadable. The shell's dark-mode CSS already ships a scoped `.mj-w .link` rule for
+  exactly this case; it just needs the anchor to carry `class="link"`, which
+  `braze-liquid-tags.md` §2 never told assemblers to add. Documented in
+  `skills/figma-to-html/knowledge/braze-liquid-tags.md` §2 and
+  `skills/figma-to-html/knowledge/email-love-shell.md`'s class-scaffolding table.
+
 ## [0.2.1] - 2026-08-12
 
 ### Fixed

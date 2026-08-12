@@ -27,8 +27,21 @@ the only way to control how it looks. Never leave `monday.com` as bare, untracke
 
 Pick the color variant that matches the surrounding text color in that section of the
 design — black text on a light/white background, white text on a dark/colored section
-fill. Don't add a dark-mode class to either variant — see `email-shell.md` for why this
-shell doesn't do CSS-media-query-based dark mode at all.
+fill.
+
+**On the `email-love-shell.md` / ZIP pipeline path, add `class="link"` to the anchor.**
+Confirmed via a real Braze test send (2026-08-12): the shell's dark-mode block already
+ships a scoped rule for exactly this, `.mj-w .link,.mj-w .link>div { color:#ffffff
+!important }` (see `references/email-love-head.html`), but it only fires if the anchor
+carries `class="link"`. Without it, the anchor's own inline `color:#000000` sets the
+`<a>` element's color directly — the container's `.mj-w .text` dark-mode rule flips the
+surrounding text white, but doesn't reach a descendant that already has its own explicit
+color — so the link renders as barely-visible black-on-#1f1f1f in dark mode while the rest
+of the paragraph goes white. This is not the same failure mode as the shell's warning
+against *inventing* an unscoped rule (see `email-love-shell.md`) — `.link` is real,
+pre-existing, scoped scaffolding; using it is required, not optional.
+On the legacy hand-paste path (`email-shell.md`, no dark-mode CSS at all), there is no
+`.link` class to hook — leave the anchor as-is there.
 
 **On a light background (black text):**
 ```html
