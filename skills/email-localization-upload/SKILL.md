@@ -116,12 +116,19 @@ uploads images to Cloudinary, and creates the Braze master template.
 ### 5. Report, don't poll aggressively
 
 The run takes roughly 5 minutes for EN. Watch the item's en-US subitem `Pipeline Status`
-(`color_mm2pgycv`) progress toward `Done` / `Done (No Images)`, then read
-`link_mm32jmjx` ("Braze Template Link") off the parent item and hand that back.
+(`color_mm2pgycv`) progress toward `Done` / `Done (No Images)`, then read both of these off
+the parent item and hand them back together:
 
-If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status and
-the subitem's execution link. Don't retry the trigger more than once — repeated failures are
-a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing just adds runs.
+- `link_mm32jmjx` ("Braze Template Link")
+- `pulse_id_mm3qydpj` ("Search Braze For") — the monday item's own numeric ID, always
+  present regardless of run outcome. Report it alongside the Braze link every time (not
+  only on success) — it's what a human uses to find this item again in Braze/monday when
+  troubleshooting, so include it even when reporting an error below.
+
+If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status,
+the `pulse_id_mm3qydpj` value, and the subitem's execution link. Don't retry the trigger more
+than once — repeated failures are a pipeline issue for Netanel Darshan
+(`netanelda@monday.com`), and re-firing just adds runs.
 
 ## DOs
 

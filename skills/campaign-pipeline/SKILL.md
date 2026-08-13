@@ -108,13 +108,17 @@ Everything else follows that skill exactly:
 
 Watch the item's en-US subitem `Pipeline Status` (`color_mm2pgycv`) without polling
 aggressively, the same cadence `email-localization-upload` step 5 uses. When it reaches
-`Done` / `Done (No Images)`, read `link_mm32jmjx` ("Braze Template Link") off the parent item
-and hand that back as the final result, along with the monday item URL created in
-`group_mm655ecf`.
+`Done` / `Done (No Images)`, read all of the following off the parent item and hand them
+back together as the final result:
 
-If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status and
-the subitem's execution link rather than retrying — same escalation path as
-`email-localization-upload` (Netanel Darshan, `netanelda@monday.com`).
+- `link_mm32jmjx` ("Braze Template Link")
+- `pulse_id_mm3qydpj` ("Search Braze For") — the monday item's own numeric ID; always
+  report this, success or failure, since it's what a human uses to find the item again
+- the monday item URL created in `group_mm655ecf`
+
+If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status,
+the `pulse_id_mm3qydpj` value, and the subitem's execution link rather than retrying — same
+escalation path as `email-localization-upload` (Netanel Darshan, `netanelda@monday.com`).
 
 ## DOs
 
