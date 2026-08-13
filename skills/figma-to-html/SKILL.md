@@ -145,6 +145,12 @@ the user instead of looping forever.
   Scoped rules can't be mis-flattened that way: with no `.mj-w` ancestor they simply never
   match. Either reproduce the scaffolding faithfully or omit the dark-mode block entirely —
   the one thing that breaks sends is inventing a selector in between.
+- **Fixed-background sections (info cards, callout boxes) never get `class="text"`/`class="link"`**:
+  a section with its own explicit non-flipping background (e.g. a light-grey `#F6F7FB` card)
+  doesn't flip in dark mode, but `class="text"` still flips just the text color to white —
+  producing invisible white-on-light-grey text. Confirmed via a real Braze preview
+  (2026-08-13, monday item 12793052638/NPO #13). See `email-love-shell.md` → "Fixed-background
+  sections never get class=text or class=link" for the full rule.
 - **Button spec fidelity**: the primary CTA must match `buttons.md`'s documented values
   EXACTLY — `font-size:16px`, `font-weight:400`, `padding:12px 24px`. A real test caught an
   unflagged drift to 18px/weight 600/padding 15px 40px ("make it stand out more" is not a
@@ -321,6 +327,7 @@ looked fine until viewed in the actual failure condition.
 | HTML-entity-escaping the subject/preheader hidden div the same way as visible body text | A real Braze preview showed the literal string `You&#39;re invited...` in the Subject line field — the pipeline extracts that div as raw text and never decodes entities, so `&#39;` never became an apostrophe | Use plain, unescaped characters (`'`, `&`) inside the subject/preheader div only — see `email-love-shell.md` → "Subject line + preheader" |
 | Copying an ALL-CAPS word ("FREE", "NOW") from the source copy straight into the subject/preheader div | Renders as shouting caps in the inbox subject line / preview text | Lowercase any ALL-CAPS word when placing subject/preheader text into that div — visible body copy is unaffected |
 | Adding the `{{content_blocks.${fotter_with_monday_logo}}}` footer reference on the ZIP/localization-pipeline path | A real Braze test send (monday item 12782188111) showed two footers stacked back to back — the Email Localization Uploads board's automation already appends the footer downstream | Never add the footer block on the ZIP path; leave the HTML ending at the last design section, per `email-love-shell.md` |
+| Stamping `class="text"` on text inside a section with its own fixed (non-flipping) background, e.g. a `#F6F7FB` info card | Dark mode flipped the text to white while the card's background stayed light grey — invisible text (monday item 12793052638/NPO #13, 2026-08-13) | Don't apply `class="text"`/`class="link"` to text/links on a fixed-background section — only text on the flipping `.mj-w`-level background gets that class |
 | Entity-encoding an emoji in the subject/preheader div (e.g. `🍹` → `&#127865;`) on the theory that non-ASCII characters always get entity-escaped | Braze's subject-line preview showed the literal text `&#127865;` instead of the emoji (monday item 12761404720) — this div is extracted as raw text and never renders as HTML, so the entity never decodes | Keep emoji as a literal Unicode character in the subject/preheader div, same as `'`/`&` — see `email-love-shell.md` → "Subject line + preheader" |
 | Lowercasing an entire subject/preheader string because it starts with capital letters, instead of only words that are fully ALL-CAPS | "Good conversations. Great cocktails. One day only." (normal sentence/title case, no ALL-CAPS word) was wrongly lowercased to "good conversations. great cocktails. one day only." (monday item 12761404720) | Only lowercase a word that is entirely capitalized (e.g. "FREE", "NOW") — leave normal sentence/title case exactly as the source copy has it |
 

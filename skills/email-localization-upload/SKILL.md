@@ -67,9 +67,13 @@ above (`group_mm64c9pb` for a human submitter, `group_mm655ecf` when invoked fro
 `campaign-pipeline`). Name it after the email/campaign — reuse the campaign request item's
 name so the two boards line up.
 
-**Check for an existing item with that name in that group first.** If one exists, stop and
-ask rather than creating a near-duplicate: this board is shared team infrastructure with 200+
-items feeding live Braze templates, and a duplicate is confusing to unpick later.
+**Check for an existing item with that name in that group first.** If one exists *and this is
+a first-time submission* (not a follow-up fix to something already run), stop and ask rather
+than creating a near-duplicate — this board is shared team infrastructure with 200+ items
+feeding live Braze templates. But if the existing item is a prior run of the **same**
+correction workflow (per step 3b — you're uploading a fix after an earlier run of this exact
+campaign), creating another same-named item is expected, not a mistake — don't stop and ask
+in that case, just proceed.
 
 ### 3. Upload the ZIP
 
@@ -84,28 +88,28 @@ Three steps, in order:
 Confirm the column actually shows the file before moving on. Don't trigger a run against an
 item whose ZIP column is empty.
 
-### 3b. Re-uploading a corrected ZIP to an item this skill already created
+### 3b. Every fix gets a brand-new item — never patch an existing one
 
-If a bug is found after the fact (e.g. a subject-line or content fix in the HTML) and the
-fix needs to go out on the **same** localization-board item rather than a brand-new one,
-the `file_mm24s6ep` column must end up with exactly one file — the corrected ZIP — never
-two. There is no per-file delete mutation on this column (`get_graphql_schema` write
-mutations expose `add_file_to_column`, not a file-level delete), so uploading the new ZIP
-on top of the old one *adds* a second file rather than replacing it — confirmed 2026-08-13
-on monday item 12792404696, where the column ended up holding both the buggy and the fixed
-ZIP.
+**Per explicit instruction (2026-08-13): after any change to the HTML/ZIP — a bug fix, a
+subject-line edit, anything — always create a fresh item on this board and run the normal
+Steps 2–4 on it. Never go back and modify the ZIP column (or anything else) on a
+previously-created item, even one this skill itself created.**
 
-The fix: **clear the whole column before uploading the replacement.**
+This was tried the other way first (clear `file_mm24s6ep` to `null`, then re-upload the
+corrected ZIP onto the same item) after discovering the column has no per-file delete
+mutation and a same-item re-upload without clearing first just adds a second file
+(confirmed 2026-08-13, monday item 12792404696). That clear-then-reuse approach worked
+mechanically, but the user's explicit direction going forward is simpler and safer: skip
+the reuse path entirely and always create a new item per correction. Every run — first
+attempt or fifth fix — is Steps 2–4 verbatim on a fresh item; there is no separate
+"re-upload" procedure anymore.
 
-1. `change_item_column_values` with `{"file_mm24s6ep": null}` — this removes every file
-   currently in the column.
-2. Re-run the normal 3-step upload (`get_asset_upload_url` → `PUT` → `finalize_asset_upload`)
-   for the corrected ZIP only.
-3. Re-query the item and confirm the column shows exactly one file before re-triggering.
-
-This is the one narrow exception to the "never modify an existing item" DON'T below — it
-applies only to an item this skill (or the `campaign-pipeline` orchestrator) itself created,
-being corrected in place, never to a pre-existing item someone else submitted.
+One practical consequence: the localization board will accumulate one item per correction
+for the same campaign (e.g. three "NPO #13" items after two fixes). That's expected — it's
+the same tradeoff `campaign-pipeline`'s `group_mm655ecf` lane already makes (agent runs
+never confused with human ones), just applied at finer grain. If the trail of superseded
+items for one campaign gets confusing, that's a call for the user to archive old ones, not
+a reason to start patching items in place again.
 
 ### 4. Trigger EN-US — and only EN-US
 
@@ -156,14 +160,11 @@ Darshan (`netanelda@monday.com`), and re-firing just adds runs.
 - ❌ **Never create an item in any group but the two listed above** (`group_mm64c9pb` or
   `group_mm655ecf`, chosen by caller). The other groups (Winback, Agents Trial Onboarding,
   Newsletter, …) are live campaign sequences owned by other people.
-- ❌ **Never modify an existing item on this board** — not its ZIP, not its Run columns, not
-  its name — **unless it's an item this skill (or `campaign-pipeline`) itself created and
-  you're correcting a known bug in place**, per step 3b. Never touch an item someone else
-  submitted. Existing third-party items map to live Braze templates.
-- ❌ **Never upload a replacement ZIP on top of an existing one without clearing the column
-  first.** `file_mm24s6ep` has no per-file delete — uploading a corrected ZIP without
-  clearing leaves both the old and new file in the column, and it's ambiguous which one the
-  next pipeline run reads. Always `{"file_mm24s6ep": null}` before re-uploading — see 3b.
+- ❌ **Never modify an existing item on this board, full stop** — not its ZIP, not its Run
+  columns, not its name. Not even an item this skill (or `campaign-pipeline`) created
+  earlier in the same conversation. Every correction is a brand-new item running Steps
+  2–4 fresh — see step 3b. This applies doubly to an item someone else submitted; existing
+  items of any origin map to live Braze templates.
 - ❌ Don't set subitem columns (`Create Template`, `Pipeline Status`, …). Those are
   automation-owned; writing them by hand fights the pipeline and can publish to Braze
   unreviewed.
@@ -179,7 +180,7 @@ Darshan (`netanelda@monday.com`), and re-firing just adds runs.
 | Assuming the HTML must be `index.html` | `how-to-email.md` says `index.html`, but real Email Love exports are named `Email 2_7_6_2026_.html` — a validator hard-checking for `index.html` would reject every genuine export | Accept any single root-level `.html` file |
 | Shipping a ZIP whose HTML still points at `figma.com/api/mcp/asset/…` URLs | Images render during review, then 404 about a week later — after the Braze template is live | Re-path every image to `Images/<file>` and confirm the file exists in the ZIP |
 | Reading "ES" as the target locale | Fires the full es-MX AI translation pipeline instead of the EN Thin Flow | These sends are English-only. Only `color_mm2fex1q`, ever |
-| Uploading a corrected ZIP without clearing `file_mm24s6ep` first | The column ended up holding both the buggy and the fixed ZIP (monday item 12792404696, 2026-08-13) — ambiguous which one a re-run actually reads | Set `{"file_mm24s6ep": null}` to clear the column, then upload only the corrected ZIP — see step 3b |
+| Uploading a corrected ZIP onto the same existing item instead of creating a new one | The column ended up holding both the buggy and the fixed ZIP (monday item 12792404696, 2026-08-13) — ambiguous which one a re-run actually reads | Always create a brand-new item for every fix and run Steps 2–4 on it; never touch a prior item's ZIP column — see step 3b |
 
 ## Related
 

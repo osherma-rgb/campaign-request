@@ -42,6 +42,22 @@ Real exports additionally stamp a random per-element hash class (`cac-76`, `ab0-
 of these, purely to hang generated CSS rules on. **We use inline styles instead, so the hash
 classes are unnecessary — omit them.** Keep only the semantic classes above.
 
+## Fixed-background sections never get `class="text"` or `class="link"`
+
+A section can have its own explicit, non-flipping background color (e.g. a light-grey
+`#F6F7FB` info card sitting inside an otherwise-white `.mj-w` wrapper). That background never
+flips in dark mode — only the outer `.mj-w`-scoped backgrounds do (see the scaffolding table
+above). If the text inside that card still carries `class="text"`, dark mode flips *only the
+text* to white while the card's own background stays exactly where it was — white text on a
+light-grey card, unreadable. Confirmed via a real Braze preview (2026-08-13, monday item
+12793052638/NPO #13): three info cards with a `#F6F7FB` background had `class="text"` on
+their headline/body divs, and dark mode rendered them invisible.
+
+The fix: don't stamp `class="text"`/`class="link"` on any text/link sitting on a section with
+its own fixed background that isn't meant to flip. Leave its color exactly as designed in
+both modes. Only text on a background that *is* meant to flip (the `.mj-w`-level white/black
+body background) should carry `class="text"`.
+
 Multi-column layouts need a matching generated `.mj-column-per-<pct>` rule in the head
 (Email Love emits e.g. `.mj-column-per-88-02920532226562`). If a design genuinely needs an
 uneven split, either add the matching class + head rule or flag it — don't approximate it
