@@ -121,14 +121,18 @@ the parent item and hand them back together:
 
 - `link_mm32jmjx` ("Braze Template Link")
 - `pulse_id_mm3qydpj` ("Search Braze For") — the monday item's own numeric ID, always
-  present regardless of run outcome. Report it alongside the Braze link every time (not
-  only on success) — it's what a human uses to find this item again in Braze/monday when
-  troubleshooting, so include it even when reporting an error below.
+  present regardless of run outcome. **The direct Braze link sometimes redirects to the
+  Braze homepage instead of the template** (confirmed 2026-08-13) — this number is the
+  reliable fallback: paste it into Braze's own search to find the template by hand. Always
+  report it alongside the link, phrased for a human, not as the raw column name — e.g.
+  "The email template number for **{item name}** is: **{number}** — search this in Braze if
+  the link above lands on the homepage instead of the template." Report it every time, not
+  only on success — include it even when reporting an error below.
 
 If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status,
-the `pulse_id_mm3qydpj` value, and the subitem's execution link. Don't retry the trigger more
-than once — repeated failures are a pipeline issue for Netanel Darshan
-(`netanelda@monday.com`), and re-firing just adds runs.
+the `pulse_id_mm3qydpj` value (same phrasing as above), and the subitem's execution link.
+Don't retry the trigger more than once — repeated failures are a pipeline issue for Netanel
+Darshan (`netanelda@monday.com`), and re-firing just adds runs.
 
 ## DOs
 

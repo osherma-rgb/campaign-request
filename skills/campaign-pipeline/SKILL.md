@@ -113,11 +113,16 @@ back together as the final result:
 
 - `link_mm32jmjx` ("Braze Template Link")
 - `pulse_id_mm3qydpj` ("Search Braze For") — the monday item's own numeric ID; always
-  report this, success or failure, since it's what a human uses to find the item again
+  report this, success or failure. **The direct Braze link sometimes redirects to the Braze
+  homepage instead of the template** (confirmed 2026-08-13), so this number is the reliable
+  fallback — phrase it for a human, not as the raw column name, e.g. "The email template
+  number for **{item name}** is: **{number}** — search this in Braze if the link above
+  lands on the homepage instead of the template."
 - the monday item URL created in `group_mm655ecf`
 
 If it lands on `Error` / `Error in Braze` / `Exhausted — Needs Re-run`, report the status,
-the `pulse_id_mm3qydpj` value, and the subitem's execution link rather than retrying — same
+the `pulse_id_mm3qydpj` value (same phrasing), and the subitem's execution link rather than
+retrying — same
 escalation path as `email-localization-upload` (Netanel Darshan, `netanelda@monday.com`).
 
 ## DOs
