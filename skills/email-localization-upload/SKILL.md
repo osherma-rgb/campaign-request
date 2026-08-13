@@ -84,6 +84,29 @@ Three steps, in order:
 Confirm the column actually shows the file before moving on. Don't trigger a run against an
 item whose ZIP column is empty.
 
+### 3b. Re-uploading a corrected ZIP to an item this skill already created
+
+If a bug is found after the fact (e.g. a subject-line or content fix in the HTML) and the
+fix needs to go out on the **same** localization-board item rather than a brand-new one,
+the `file_mm24s6ep` column must end up with exactly one file — the corrected ZIP — never
+two. There is no per-file delete mutation on this column (`get_graphql_schema` write
+mutations expose `add_file_to_column`, not a file-level delete), so uploading the new ZIP
+on top of the old one *adds* a second file rather than replacing it — confirmed 2026-08-13
+on monday item 12792404696, where the column ended up holding both the buggy and the fixed
+ZIP.
+
+The fix: **clear the whole column before uploading the replacement.**
+
+1. `change_item_column_values` with `{"file_mm24s6ep": null}` — this removes every file
+   currently in the column.
+2. Re-run the normal 3-step upload (`get_asset_upload_url` → `PUT` → `finalize_asset_upload`)
+   for the corrected ZIP only.
+3. Re-query the item and confirm the column shows exactly one file before re-triggering.
+
+This is the one narrow exception to the "never modify an existing item" DON'T below — it
+applies only to an item this skill (or the `campaign-pipeline` orchestrator) itself created,
+being corrected in place, never to a pre-existing item someone else submitted.
+
 ### 4. Trigger EN-US — and only EN-US
 
 Set `color_mm2fex1q` to the label `Run EN-US`. That fires the Monday automation → the EN Thin
@@ -123,8 +146,13 @@ a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing jus
   `group_mm655ecf`, chosen by caller). The other groups (Winback, Agents Trial Onboarding,
   Newsletter, …) are live campaign sequences owned by other people.
 - ❌ **Never modify an existing item on this board** — not its ZIP, not its Run columns, not
-  its name. Only ever the item this skill just created. Existing items map to live Braze
-  templates.
+  its name — **unless it's an item this skill (or `campaign-pipeline`) itself created and
+  you're correcting a known bug in place**, per step 3b. Never touch an item someone else
+  submitted. Existing third-party items map to live Braze templates.
+- ❌ **Never upload a replacement ZIP on top of an existing one without clearing the column
+  first.** `file_mm24s6ep` has no per-file delete — uploading a corrected ZIP without
+  clearing leaves both the old and new file in the column, and it's ambiguous which one the
+  next pipeline run reads. Always `{"file_mm24s6ep": null}` before re-uploading — see 3b.
 - ❌ Don't set subitem columns (`Create Template`, `Pipeline Status`, …). Those are
   automation-owned; writing them by hand fights the pipeline and can publish to Braze
   unreviewed.
@@ -140,6 +168,7 @@ a pipeline issue for Netanel Darshan (`netanelda@monday.com`), and re-firing jus
 | Assuming the HTML must be `index.html` | `how-to-email.md` says `index.html`, but real Email Love exports are named `Email 2_7_6_2026_.html` — a validator hard-checking for `index.html` would reject every genuine export | Accept any single root-level `.html` file |
 | Shipping a ZIP whose HTML still points at `figma.com/api/mcp/asset/…` URLs | Images render during review, then 404 about a week later — after the Braze template is live | Re-path every image to `Images/<file>` and confirm the file exists in the ZIP |
 | Reading "ES" as the target locale | Fires the full es-MX AI translation pipeline instead of the EN Thin Flow | These sends are English-only. Only `color_mm2fex1q`, ever |
+| Uploading a corrected ZIP without clearing `file_mm24s6ep` first | The column ended up holding both the buggy and the fixed ZIP (monday item 12792404696, 2026-08-13) — ambiguous which one a re-run actually reads | Set `{"file_mm24s6ep": null}` to clear the column, then upload only the corrected ZIP — see step 3b |
 
 ## Related
 
