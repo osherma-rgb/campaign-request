@@ -166,9 +166,12 @@ the user instead of looping forever.
   Escape those as `&amp;` too; don't assume "most clients tolerate it" is good enough after
   what CSS inlining already did to the dark-mode rule.
 - **Subject line + preheader div**: the opposite rule applies here — see
-  `email-love-shell.md` → "Subject line + preheader". Use plain, unescaped `'`/`&` inside
-  that one hidden div (it's extracted as raw text, entities never decode), and lowercase any
-  ALL-CAPS word from the source copy. Don't apply the entity-escaping rule above to this div.
+  `email-love-shell.md` → "Subject line + preheader". Use plain, unescaped `'`/`&`/emoji
+  inside that one hidden div (it's extracted as raw text, entities never decode — an emoji
+  entity-encoded as `&#127865;` shows up as that literal garbled text in Braze's subject
+  preview, not the emoji), and lowercase only a word that is ALL CAPS in full (e.g. "FREE",
+  "NOW") — never lowercase the whole subject/preheader just because it's in normal
+  sentence/title case. Don't apply the entity-escaping rule above to this div.
 - **Platform-specific substitutions**: apply the file matching the platform confirmed in
   step 0 — never both, never guess.
 
@@ -318,6 +321,8 @@ looked fine until viewed in the actual failure condition.
 | HTML-entity-escaping the subject/preheader hidden div the same way as visible body text | A real Braze preview showed the literal string `You&#39;re invited...` in the Subject line field — the pipeline extracts that div as raw text and never decodes entities, so `&#39;` never became an apostrophe | Use plain, unescaped characters (`'`, `&`) inside the subject/preheader div only — see `email-love-shell.md` → "Subject line + preheader" |
 | Copying an ALL-CAPS word ("FREE", "NOW") from the source copy straight into the subject/preheader div | Renders as shouting caps in the inbox subject line / preview text | Lowercase any ALL-CAPS word when placing subject/preheader text into that div — visible body copy is unaffected |
 | Adding the `{{content_blocks.${fotter_with_monday_logo}}}` footer reference on the ZIP/localization-pipeline path | A real Braze test send (monday item 12782188111) showed two footers stacked back to back — the Email Localization Uploads board's automation already appends the footer downstream | Never add the footer block on the ZIP path; leave the HTML ending at the last design section, per `email-love-shell.md` |
+| Entity-encoding an emoji in the subject/preheader div (e.g. `🍹` → `&#127865;`) on the theory that non-ASCII characters always get entity-escaped | Braze's subject-line preview showed the literal text `&#127865;` instead of the emoji (monday item 12761404720) — this div is extracted as raw text and never renders as HTML, so the entity never decodes | Keep emoji as a literal Unicode character in the subject/preheader div, same as `'`/`&` — see `email-love-shell.md` → "Subject line + preheader" |
+| Lowercasing an entire subject/preheader string because it starts with capital letters, instead of only words that are fully ALL-CAPS | "Good conversations. Great cocktails. One day only." (normal sentence/title case, no ALL-CAPS word) was wrongly lowercased to "good conversations. great cocktails. one day only." (monday item 12761404720) | Only lowercase a word that is entirely capitalized (e.g. "FREE", "NOW") — leave normal sentence/title case exactly as the source copy has it |
 
 ## Related
 

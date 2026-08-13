@@ -106,19 +106,30 @@ subject line and preheader as a single hidden `div`, joined by a literal `###`:
 Two rules for what goes inside it, both confirmed against a real Braze preview render
 (2026-08-12, monday item 12759914421):
 
-- **Plain characters only — never an HTML entity.** The pipeline extracts this div as raw
-  text, not rendered HTML, so entities are never decoded. A real send showed the literal
-  string `You&#39;re invited...` in the Subject line field of Braze's preview — the `&#39;`
-  never became an apostrophe. Use a plain `'` and a plain `&` here even though that makes
-  this one div's inner text not strictly-valid HTML by itself; that trade-off is intentional
-  and confined to this div only. Every *other* text node in the email still needs full entity
-  escaping per the Character encoding rule below — this is the one exception, and it exists
-  because this div is never rendered as HTML in the first place.
-- **Never use an ALL-CAPS word.** Subject and preheader must be normal sentence case even if
-  the source copy (a monday item's "Subject line:" / "Preview text:" update text, or Figma)
-  has one in full caps (e.g. "FREE", "NOW") — lowercase it when placing it in this div. This
-  applies only to the hidden subject/preheader div, not to visible body copy elsewhere in the
-  email, which follows the design as given.
+- **Plain characters only — never an HTML entity. This includes emoji.** The pipeline
+  extracts this div as raw text, not rendered HTML, so entities are never decoded. A real
+  send showed the literal string `You&#39;re invited...` in the Subject line field of
+  Braze's preview — the `&#39;` never became an apostrophe. Use a plain `'` and a plain `&`
+  here even though that makes this one div's inner text not strictly-valid HTML by itself;
+  that trade-off is intentional and confined to this div only. **The same applies to emoji:
+  a literal `🍹` must stay a literal `🍹`, never `&#127865;`** — a real bug (confirmed
+  2026-08-13, monday item 12761404720) shipped the numeric-entity form here on the theory
+  that "non-ASCII punctuation gets entity-escaped," but this div is never rendered as HTML,
+  so the entity shows up as literal garbled text (`&#127865;`) in Braze's subject-line
+  preview instead of the emoji. Every *other* text node in the email still needs full
+  entity escaping per the Character encoding rule below — this is the one exception, and it
+  exists because this div is never rendered as HTML in the first place.
+- **Lowercase only a word that is ALL CAPS in full — never touch normal sentence case.**
+  Subject and preheader must not shout, so a source word in full caps (e.g. "FREE", "NOW",
+  "TODAY") gets lowercased when placed in this div. But this rule targets *individual fully
+  capitalized words*, not the sentence as a whole: a normal title/sentence-case subject
+  like "Good conversations. Great cocktails. One day only." has no ALL-CAPS word in it and
+  must be copied verbatim, capital letters and all — do not lowercase the whole string on
+  the assumption that every leading capital is "shouting." A real bug (confirmed
+  2026-08-13, monday item 12761404720) lowercased that entire sentence to "good
+  conversations. great cocktails. one day only." even though none of its words were
+  ALL-CAPS. This rule applies only to the hidden subject/preheader div, not to visible body
+  copy elsewhere in the email, which follows the design as given.
 
 ## What the export does NOT contain
 
