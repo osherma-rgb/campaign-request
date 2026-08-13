@@ -184,7 +184,8 @@ the user instead of looping forever.
   - **Magic link**: apply the content-block substitution in §3 for any sign-in/deep-link
     CTA.
   - **Footer**: apply the content-block substitution in §4 — inserted right before
-    `</body>`, no inlined footer markup.
+    `</body>`, no inlined footer markup. **This applies to the legacy hand-paste path
+    (`email-shell.md`) only — see the ZIP-path override immediately below.**
 
   **Braze, ZIP/localization-pipeline path only** — when the output is a ZIP for
   `email-localization-upload` rather than HTML to paste into Braze by hand, two of the above
@@ -194,13 +195,13 @@ the user instead of looping forever.
     the export. Carry through whatever Figma has rather than injecting it. Do still *complete*
     an incomplete tag (Figma sometimes has a bare `{{${first_name}}}` with no default) per §1,
     and say that you did.
-  - **The footer is an open question — do not silently assume.** A real Email Love export
-    contains no footer block at all, so something downstream (the Braze master template, or
-    the canvas) must supply it. Whether the EN Thin Flow injects
-    `{{content_blocks.${fotter_with_monday_logo}}}` is **not documented and not yet
-    verified**. This is CAN-SPAM compliance content, not styling — so if the Figma design has
-    no footer, flag it to the user and ask before shipping, rather than adding it (risking a
-    duplicate footer) or omitting it (risking a non-compliant send).
+  - **Never add the footer content block on this path.** Confirmed via a real Braze test
+    send (2026-08-12, monday item 12782188111): the Email Localization Uploads board's own
+    automation already appends `{{content_blocks.${fotter_with_monday_logo}}}` to every
+    template it builds downstream. Adding it yourself in the HTML produces two stacked
+    footers in the live template. A real Email Love export contains no footer block at
+    all — leave the HTML the same way; the export simply ends at the last design section.
+    (This was previously flagged as an open question — it is now settled by that test send.)
 
   **If HubSpot** (`knowledge/hubspot-tags.md`):
   - **First name**: apply §1, but only if a literal greeting name actually appears in the
@@ -254,9 +255,12 @@ silently. Uploading to the board is `email-localization-upload`'s job, not this 
   ask or use the closest documented one and say so.
 - ✅ Reuse the real product logos/icons in `references/asset-index.md` — genuine brand
   assets, not placeholders.
-- ✅ On Braze, apply all four `knowledge/braze-liquid-tags.md` substitutions every time,
-  even if the Figma design doesn't obviously call for one (e.g. add the footer content
-  block even if Figma has no footer frame).
+- ✅ On Braze hand-paste HTML (`email-shell.md`), apply all four
+  `knowledge/braze-liquid-tags.md` substitutions every time, even if the Figma design
+  doesn't obviously call for one (e.g. add the footer content block even if Figma has no
+  footer frame). **On the ZIP/localization-pipeline path (`email-love-shell.md`), apply
+  only §1–3 — never §4's footer block; the localization board's automation adds it
+  downstream, and adding it yourself doubles it.**
 - ✅ On HubSpot, always add the `knowledge/hubspot-tags.md` §3 preview-text block, and add
   §1/§2 only when a first name / "monday.com" actually appears in the copy.
 - ✅ Pick component variants by what the content needs, not the first snippet in the file.
@@ -268,8 +272,13 @@ silently. Uploading to the board is `email-localization-upload`'s job, not this 
 - ❌ Don't mix platform substitutions — never apply a Braze tag to HubSpot HTML or vice
   versa.
 - ❌ Don't invent a new button shape, font, color, or spacing "in the spirit of" the brand.
-- ❌ Don't inline a footer block — always use the `{{content_blocks.${fotter_with_monday_logo}}}`
-  reference instead (Braze only — HubSpot has no equivalent footer substitution here).
+- ❌ Don't inline a footer block on the legacy hand-paste path — always use the
+  `{{content_blocks.${fotter_with_monday_logo}}}` reference instead (Braze only — HubSpot
+  has no equivalent footer substitution here).
+- ❌ Don't add the footer content-block reference at all on the ZIP/localization-pipeline
+  path (`email-love-shell.md`) — the localization board's automation already appends it
+  downstream; adding it yourself produces two stacked footers in the live template
+  (confirmed via a real Braze test send, 2026-08-12, monday item 12782188111).
 - ❌ Don't hand-write a URL for a magic-link CTA — always use the content-block reference
   (Braze only).
 - ❌ Don't leave a bare `monday.com` mention un-tracked, on either platform.
@@ -308,6 +317,7 @@ looked fine until viewed in the actual failure condition.
 | Using a component instance's raw fill asset URL (from `get_design_context`/`download_assets`) without checking it against that instance's actual screenshot | A checkmark icon rendered as a heart, and a hero background showed the wrong city/date ("NYC, Javits Center Oct 27-29" instead of the real "Excel London Nov 23-24") — the raw fill resolved to the component's default/master asset, not this instance's override | Cross-check the raw fill against `get_screenshot` for that instance; on a mismatch, use a flattened `download_assets` export of the instance node instead, cropping to the specific element if needed |
 | HTML-entity-escaping the subject/preheader hidden div the same way as visible body text | A real Braze preview showed the literal string `You&#39;re invited...` in the Subject line field — the pipeline extracts that div as raw text and never decodes entities, so `&#39;` never became an apostrophe | Use plain, unescaped characters (`'`, `&`) inside the subject/preheader div only — see `email-love-shell.md` → "Subject line + preheader" |
 | Copying an ALL-CAPS word ("FREE", "NOW") from the source copy straight into the subject/preheader div | Renders as shouting caps in the inbox subject line / preview text | Lowercase any ALL-CAPS word when placing subject/preheader text into that div — visible body copy is unaffected |
+| Adding the `{{content_blocks.${fotter_with_monday_logo}}}` footer reference on the ZIP/localization-pipeline path | A real Braze test send (monday item 12782188111) showed two footers stacked back to back — the Email Localization Uploads board's automation already appends the footer downstream | Never add the footer block on the ZIP path; leave the HTML ending at the last design section, per `email-love-shell.md` |
 
 ## Related
 

@@ -129,7 +129,14 @@ Verified against the real ZIP — all absent:
   plain text. Don't inject them; carry through whatever Figma has. If Figma has an
   incomplete tag (e.g. `{{${first_name}}}` with no default), complete it per
   `braze-liquid-tags.md` §1 and flag that you did.
-- **No footer content block.** The export ends at the last design section.
+- **No footer content block — and don't add one.** The export ends at the last design
+  section. Confirmed via a real Braze test send (2026-08-12, monday item 12782188111): the
+  Email Localization Uploads board's own automation already appends
+  `{{content_blocks.${fotter_with_monday_logo}}}` to every template it builds downstream.
+  Adding that reference yourself in the HTML produces two stacked footers in the live
+  template. This was previously an open, unverified question (see prior revisions) — it is
+  now settled: never add the footer block on this path. `braze-liquid-tags.md` §4 is
+  legacy-hand-paste-only for this reason.
 - **No `index.html`.** The HTML file is named after the email (`Email 2_7_6_2026_.html`).
   `how-to-email.md` says `index.html` — that is wrong; the real export does not use it.
 

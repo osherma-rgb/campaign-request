@@ -70,10 +70,17 @@ a URL for a magic link.
 
 ## 4. Footer
 
-Do not inline footer markup. Instead, insert the footer content-block reference
-immediately before the closing `</body>` tag, verbatim (this is a real Braze content-block
-key, not a typo — do not "fix" the spelling):
+**Legacy hand-paste path (`email-shell.md`) only.** Do not inline footer markup. Instead,
+insert the footer content-block reference immediately before the closing `</body>` tag,
+verbatim (this is a real Braze content-block key, not a typo — do not "fix" the spelling):
 
 ```
 {{content_blocks.${fotter_with_monday_logo}}}
 ```
+
+**Never add this on the `email-love-shell.md` / ZIP / localization-pipeline path.**
+Confirmed via a real Braze test send (2026-08-12, monday item 12782188111): the Email
+Localization Uploads board's own automation already appends the footer content block to
+every template it builds. Adding the reference yourself doubles it — the rendered email
+showed two footers stacked back to back. On that path the export simply ends at the last
+design section; see `email-love-shell.md` → "What the export does NOT contain."
