@@ -24,16 +24,20 @@ triggered. It does not upload the result anywhere; it hands back the finished ar
 When the input is a monday item rather than a bare Figma URL, it delegates to
 `monday-reader` (see step 0b) rather than reading the item itself.
 
-**Two Braze destinations — pick one before assembling:**
+**Three Braze/HubSpot destinations — pick one before assembling:**
 
 | Destination | Output | Shell | Then |
 |---|---|---|---|
-| **Localization pipeline** (preferred) | **ZIP**: one root `.html` + `Images/` | `knowledge/email-love-shell.md` | hand to `email-localization-upload`, which uploads it and runs EN-US; the pipeline slices the HTML into content blocks, hosts images on Cloudinary, and builds the Braze template |
-| Hand-paste into Braze (legacy) | raw HTML | `knowledge/email-shell.md` | user pastes it themselves |
+| **Direct-to-Braze** (`campaign-pipeline`'s default as of 2026-08-16) | HTML + local `Images/` folder (no ZIP needed) | `knowledge/email-love-shell.md` | hand to `braze-email-templates`, which uploads each image individually via Braze's REST API and creates/verifies the template directly — no monday board involved |
+| Localization pipeline (legacy board path) | **ZIP**: one root `.html` + `Images/` | `knowledge/email-love-shell.md` | hand to `email-localization-upload`, which uploads it and runs EN-US on the monday board; retired from `campaign-pipeline`'s default flow 2026-08-16, still usable standalone |
+| Hand-paste into Braze/HubSpot (legacy) | raw HTML | `knowledge/email-shell.md` | user pastes it themselves |
 
-Prefer the pipeline path. It removes the two failure modes that bit us hardest: images stop
-depending on expiring Figma URLs (Cloudinary hosts them), and the Braze template is built by
-the same tooling every other Lifecycle email goes through instead of by hand.
+The `email-love-shell.md` scaffolding (class names, dark-mode CSS, subject/preheader div) is
+identical for the direct-to-Braze and localization-pipeline destinations — the only
+difference is packaging (a ZIP for the board vs. individual image uploads for the REST path)
+and where the footer comes from (the board's automation supplies it; the direct path needs
+the footer content-block reference inserted explicitly, since nothing else will add it — see
+`braze-email-templates`'s optional transforms).
 
 ## When to Use
 
@@ -347,10 +351,11 @@ looked fine until viewed in the actual failure condition.
 ## Related
 
 - [monday-reader](../monday-reader/SKILL.md) — resolves the Figma URL + CTA link from a monday item, feeds this skill
-- [email-localization-upload](../email-localization-upload/SKILL.md) — takes this skill's ZIP, uploads it to the localization board, runs EN-US
+- [braze-email-templates](../braze-email-templates/SKILL.md) — takes this skill's HTML + Images/, uploads images and creates/verifies the Braze template directly via REST API (current default path, 2026-08-16)
+- [email-localization-upload](../email-localization-upload/SKILL.md) — takes this skill's ZIP, uploads it to the localization board, runs EN-US (legacy path as of 2026-08-16)
 - [Generic email template](knowledge/generic-email-template.md) — for requests with no Figma design at all
 - [Design tokens](knowledge/design-tokens.md) — typography, colors, spacing, button variants
-- [Email Love shell](knowledge/email-love-shell.md) — pipeline/ZIP path (preferred) · [verbatim head](references/email-love-head.html)
+- [Email Love shell](knowledge/email-love-shell.md) — shared scaffolding for both Braze destinations · [verbatim head](references/email-love-head.html)
 - [Email shell](knowledge/email-shell.md) — legacy hand-paste path · [Component snippets](knowledge/components/)
 - [Braze liquid tags](knowledge/braze-liquid-tags.md) — the four required Braze substitutions
 - [HubSpot tags](knowledge/hubspot-tags.md) — the three required HubSpot substitutions

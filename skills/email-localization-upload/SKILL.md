@@ -11,11 +11,18 @@ owner: osherma@monday.com
 
 # Skill: Email Localization Upload (English-only)
 
+**⚠️ Legacy as of 2026-08-16.** `campaign-pipeline` no longer calls this skill by default —
+it now writes directly to Braze via `braze-email-templates`' REST API path instead of going
+through this board. This skill is kept fully functional for standalone/explicit use (e.g. if
+someone specifically asks to "upload to the localization board" or "run EN-US" by name), and
+as a rollback option if the direct-to-Braze path needs to be reverted. See
+`campaign-pipeline`'s "Change of record (2026-08-16)" section for the reasoning.
+
 **Pipeline stage:** ZIP → monday Email Localization Uploads board → n8n EN Thin Flow → Braze
-template. This is the final step of the campaign-request pipeline. It replaces manually
-pasting HTML into Braze: the n8n pipeline slices the HTML into Braze content blocks, hosts
-the images on Cloudinary (so no more expiring Figma asset URLs), and builds the Braze
-template, writing the link back to the item.
+template. Before 2026-08-16 this was the final step of the campaign-request pipeline. It
+replaces manually pasting HTML into Braze: the n8n pipeline slices the HTML into Braze
+content blocks, hosts the images on Cloudinary (so no more expiring Figma asset URLs), and
+builds the Braze template, writing the link back to the item.
 
 ## When to Use
 
@@ -186,5 +193,6 @@ Darshan (`netanelda@monday.com`), and re-firing just adds runs.
 
 - [figma-to-html](../figma-to-html/SKILL.md) — produces the ZIP this skill uploads
 - [monday-reader](../monday-reader/SKILL.md) — resolves the campaign request's Figma URL + CTA link
-- [campaign-pipeline](../campaign-pipeline/SKILL.md) — runs this skill as the final automatic step of the full monday → Braze chain
+- [campaign-pipeline](../campaign-pipeline/SKILL.md) — used to run this skill as its final step; as of 2026-08-16 it calls `braze-email-templates` instead (see that skill's "Change of record")
+- [braze-email-templates](../braze-email-templates/SKILL.md) — the direct-to-Braze REST path that replaced this skill in `campaign-pipeline`'s default flow
 - [Email Love shell](../figma-to-html/knowledge/email-love-shell.md) — the HTML structure the pipeline expects
