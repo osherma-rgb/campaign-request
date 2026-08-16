@@ -149,8 +149,20 @@ the user instead of looping forever.
   a section with its own explicit non-flipping background (e.g. a light-grey `#F6F7FB` card)
   doesn't flip in dark mode, but `class="text"` still flips just the text color to white —
   producing invisible white-on-light-grey text. Confirmed via a real Braze preview
-  (2026-08-13, monday item 12793052638/NPO #13). See `email-love-shell.md` → "Fixed-background
-  sections never get class=text or class=link" for the full rule.
+  (2026-08-13, monday item 12793052638/NPO #13).
+- **But a border-only card (no background color set) still needs `class="text"`**: don't
+  overcorrect the rule above into "text inside any bordered box skips class=text." A card with
+  only a `border` and no `background-color` is transparent — it inherits the ambient section
+  background, dark mode included — so its text is ordinary body text and needs `class="text"`
+  same as anything else. Confirmed via a real Braze preview (2026-08-16, "Webinar - Agentic
+  Masterclass UK - Email #2", template `3725b41e-1c4f-45d1-a3de-8095ca20a1c3`): an event-details
+  card built with `border:2px solid #6161FF` and no background had its three text divs built
+  *without* `class="text"` — the card's background correctly went black in dark mode, but the
+  text stayed black too, invisible against it. The test that resolves both cases: does this
+  element declare its own explicit `background-color` that survives into dark mode? Yes → skip
+  `class="text"`. No (border-only or no background at all) → add it. See `email-love-shell.md`
+  → "Fixed-background sections never get class=text or class=link" for the full rule and both
+  confirmed instances.
 - **Button spec fidelity**: the primary CTA must match `buttons.md`'s documented values
   EXACTLY — `font-size:16px`, `font-weight:400`, `padding:12px 24px`. A real test caught an
   unflagged drift to 18px/weight 600/padding 15px 40px ("make it stand out more" is not a
@@ -328,6 +340,7 @@ looked fine until viewed in the actual failure condition.
 | Copying an ALL-CAPS word ("FREE", "NOW") from the source copy straight into the subject/preheader div | Renders as shouting caps in the inbox subject line / preview text | Lowercase any ALL-CAPS word when placing subject/preheader text into that div — visible body copy is unaffected |
 | Adding the `{{content_blocks.${fotter_with_monday_logo}}}` footer reference on the ZIP/localization-pipeline path | A real Braze test send (monday item 12782188111) showed two footers stacked back to back — the Email Localization Uploads board's automation already appends the footer downstream | Never add the footer block on the ZIP path; leave the HTML ending at the last design section, per `email-love-shell.md` |
 | Stamping `class="text"` on text inside a section with its own fixed (non-flipping) background, e.g. a `#F6F7FB` info card | Dark mode flipped the text to white while the card's background stayed light grey — invisible text (monday item 12793052638/NPO #13, 2026-08-13) | Don't apply `class="text"`/`class="link"` to text/links on a fixed-background section — only text on the flipping `.mj-w`-level background gets that class |
+| Omitting `class="text"` on text inside a border-only card (no `background-color` set) | The card's transparent interior correctly went black in dark mode along with the page, but the text inside stayed its light-mode black color — invisible against it (Webinar Email #2, template `3725b41e-1c4f-45d1-a3de-8095ca20a1c3`, 2026-08-16) | A border with no background is transparent, not fixed — its text is ordinary body text and needs `class="text"` like anything else. Only skip the class when the element has its own explicit `background-color` |
 | Entity-encoding an emoji in the subject/preheader div (e.g. `🍹` → `&#127865;`) on the theory that non-ASCII characters always get entity-escaped | Braze's subject-line preview showed the literal text `&#127865;` instead of the emoji (monday item 12761404720) — this div is extracted as raw text and never renders as HTML, so the entity never decodes | Keep emoji as a literal Unicode character in the subject/preheader div, same as `'`/`&` — see `email-love-shell.md` → "Subject line + preheader" |
 | Lowercasing an entire subject/preheader string because it starts with capital letters, instead of only words that are fully ALL-CAPS | "Good conversations. Great cocktails. One day only." (normal sentence/title case, no ALL-CAPS word) was wrongly lowercased to "good conversations. great cocktails. one day only." (monday item 12761404720) | Only lowercase a word that is entirely capitalized (e.g. "FREE", "NOW") — leave normal sentence/title case exactly as the source copy has it |
 

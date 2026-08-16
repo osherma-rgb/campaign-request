@@ -58,6 +58,32 @@ its own fixed background that isn't meant to flip. Leave its color exactly as de
 both modes. Only text on a background that *is* meant to flip (the `.mj-w`-level white/black
 body background) should carry `class="text"`.
 
+### The opposite mistake: forgetting `class="text"` on a border-only card
+
+A card can also have **no background of its own at all** — just a `border` (e.g. a
+`2px solid #6161FF` outline with no `background-color` set), sitting directly inside a plain
+`.mj-w` section. That kind of card has nothing to *not* flip — its interior is transparent, so
+it inherits whatever the ambient `.mj-w`/body background is doing, dark included. Text inside
+it is exactly like any other body text and **does** need `class="text"`, the same as text
+sitted directly in the section outside the card.
+
+Confirmed via a real Braze preview (2026-08-16, "Webinar - Agentic Masterclass UK - Email #2",
+template `3725b41e-1c4f-45d1-a3de-8095ca20a1c3`): an event-details card used a plain
+`border:2px solid #6161FF` box with no background color. The three text divs inside it were
+built without `class="text"` (unlike the surrounding section's other text, which had it
+correctly) — in dark mode the card's background correctly went black along with the rest of
+the page, but the black text inside stayed black too, invisible on the now-black card.
+
+**The one question that resolves both cases**: does this specific element (the card/section
+the text sits in) declare its own explicit `background-color` that will still be there in dark
+mode?
+- **Yes, an explicit non-flipping color** (e.g. `#F6F7FB`) → do NOT add `class="text"`/`"link"`
+  to text inside it (see above).
+- **No explicit background** (border-only, or no background declared at all) → DO add
+  `class="text"`/`"link"` — it's ambient body text and needs to flip with everything else.
+Never decide this by "is it inside a bordered box" alone — the presence of a border is not the
+same question as the presence of a background color.
+
 Multi-column layouts need a matching generated `.mj-column-per-<pct>` rule in the head
 (Email Love emits e.g. `.mj-column-per-88-02920532226562`). If a design genuinely needs an
 uneven split, either add the matching class + head rule or flag it — don't approximate it
