@@ -85,14 +85,16 @@ If `~/.braze_secrets` doesn't exist yet:
    small Python script (or inline) rather than by hand; there are usually 4-10 images
    and hand-editing invites a missed one.
 
-4. **Ask about the three optional transforms** — see
+4. **Ask about the four optional transforms** — see
    [references/optional-transforms.md](references/optional-transforms.md) for the full
    detail on each, including the dark-mode judgment call on transform 3 (the outer
-   background color). None of these three are ever assumed; ask every time via
+   background color). None of these four are ever assumed; ask every time via
    `AskUserQuestion` (or equivalent) with concrete options rather than guessing:
    - wrap "monday.com" mentions in the tracked UTM link
    - insert the `{{content_blocks.${fotter_with_monday_logo}}}` footer reference
    - set the outer page background to `#f3f4f5`
+   - insert the `{{content_blocks.${magic_link_marketing_braze_api}}}` reference at the
+     very top of the file, immediately before the opening `<html>` tag
 
 5. **Get the template identity.** Ask whether this is a new template (need a name) or
    an update to an existing one (need its `email_template_id` — if so, skip to Workflow

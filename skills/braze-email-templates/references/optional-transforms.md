@@ -1,6 +1,6 @@
 # Optional transforms — ask every time, never apply by default
 
-There are three standing optional transforms sometimes wanted on a zip export before it
+There are four standing optional transforms sometimes wanted on a zip export before it
 goes into Braze. None of them are implied by "upload this as a template" — a given
 export might be for a different brand surface, a different link destination, or already
 final, so ask about each one (via `AskUserQuestion`, multiple choice) every time rather
@@ -79,3 +79,37 @@ document — this transform is scoped to exactly these 3 spots. Confirm each tar
 string occurs exactly once before replacing it (a plain string count, not a regex/sed
 sweep on `#ffffff`, since that string legitimately appears dozens of times for the
 white content cards). Diff after to confirm only these lines changed.
+
+**Established default for the HR1/HR2/HR3 email series** (confirmed by Yaniv,
+2026-08-18): these exports already ship spot 1/spot 2 (body + outer wrapper) as
+`#f3f4f5` — the transform's target value — with nothing left to change there, and spot 3
+(dark-mode override) already as `#000`. The confirmed standing decision for this exact
+pattern (light already `#f3f4f5`, dark already `#000`) is **leave the dark-mode override
+as `#000`** — do not overwrite it, and don't re-ask for this series. This does not
+relax the stop-and-ask rule above for a genuinely different non-white value (e.g. a
+color other than `#000`) or for exports outside this series — those still warrant a
+fresh judgment call.
+
+## 4. Insert the magic-link marketing content-block reference
+
+Exact literal string (Braze Liquid syntax referencing a content block by name — do not
+"fix" the block name; it has to match the actual content block name configured in
+Braze):
+```
+{{content_blocks.${magic_link_marketing_braze_api}}}
+```
+
+Placement: its own line, at the very top of the file, immediately before the opening
+`<html>` tag (after `<!doctype html>` if present):
+```html
+<!doctype html>
+{{content_blocks.${magic_link_marketing_braze_api}}}
+<html lang="und" ...>
+```
+
+Before inserting, confirm `<html` appears exactly once in the document. Plain string
+insertion right before that first occurrence — no parser needed — and diff after to
+confirm only that one insertion landed.
+
+Added 2026-08-18 at Yaniv's request (HR3), alongside the transform-3 dark-mode default
+above.
